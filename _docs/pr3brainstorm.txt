@@ -1,0 +1,57 @@
+Brainstorming
+- TD game (easy to implement?)
+    - Teleporting tower
+    - Fixed path
+    - Upgradability
+    - Player-controlled attacks?
+    - Reverse TD?
+    - Enemies can attack the towers
+    - Ammo?
+    - Enemy abilities
+    - Dynamic terrain
+        - Weather-based destruction
+        - Moving parts on map
+    - Enemies start at base, break down fortifications?
+- TBS (Advance Wars-esque)
+    - Military units
+    - What defines a turn
+- Coop game?
+- Chess-like game?
+
+------------------------
+Tower defense game
+Upgradable towers
+    Maybe have health
+    Cost to healing
+3D map
+    Different camera views
+    fog of war
+two sides to map
+Towers are placed on one side, can tp to other
+    Towers can have different roles
+Enemy abilities
+    Some enemies can tp too
+Bridges between sides
+
+Theme
+Duality theme
+    Futuristic vs fantasy
+    Base keeping worlds from colliding
+Lighthearted atmosphere
+
+Towers
+Point shooter
+    Archer and Laser Shooter
+AOE Tower
+    Catapult and Rocket launcher
+Slow
+    Yeti (some ice thing) and freeze ray
+DOT
+    Poison assassin and Biosoldier
+Support healer
+    
+
+Labor division
+Wes - towers and base
+Sam - enemies and pathing
+Greg - Menus and game master
