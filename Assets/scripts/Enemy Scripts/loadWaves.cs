@@ -6,14 +6,17 @@ public class loadWaves : MonoBehaviour {
 	// Use this for initialization
 	public int[] numberArray = new int[10];
 	public string[] typeArray = new string[10];
+	public Rigidbody prefab;
 	
 	private int waveNumber;
 	private int enemiesRemaining;
 	private string currentType;
-	
+	private GameObject start;
+	private GameObject end;
 	void Start () {
-		int waveNumber = 1;
-		
+		waveNumber = 1;
+		start = GameObject.Find("Start");
+		end = GameObject.Find("End");
 		/********************************************************************
 		 * Code to load wave list file into two arrays, one of which has the 
 		 * type of enemy spawning, the other the number of enemies spawning.
@@ -34,6 +37,7 @@ public class loadWaves : MonoBehaviour {
 		}
 		streamReader.Close();
 		/********************************************************************/
+	spawnWave ();
 	}
 	
 	// Update is called once per frame
@@ -45,7 +49,15 @@ public class loadWaves : MonoBehaviour {
 	{
 		enemiesRemaining = numberArray[waveNumber - 1];
 		currentType = typeArray[waveNumber - 1];
-		//GameObject baseEnemy = GameObject.FindSceneObjectsOfType("Square");
+		int i = 0;
+		while (i < enemiesRemaining)
+		{
+			Rigidbody clone;
+			clone = Instantiate(prefab, start.transform.position, transform.rotation) as Rigidbody;
+			clone.BroadcastMessage("Move");
+			i++;
+		}
+		Debug.Log ("Spawned");
 		return true;
 	}
 }

@@ -12,4 +12,8 @@ public class Square : MonoBehaviour {
 	void Update () {
 	
 	}
+	void Move() {
+		rigidbody.AddForce(-10f,0,0);
+		Debug.Log ("Moving");
+	}
 }
