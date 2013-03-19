@@ -6,7 +6,7 @@ public class loadWaves : MonoBehaviour {
 	// Use this for initialization
 	public int[] numberArray = new int[10];
 	public string[] typeArray = new string[10];
-	public Rigidbody prefab;
+	public GameObject prefab;
 	
 	private int waveNumber;
 	private int enemiesRemaining;
@@ -50,13 +50,13 @@ public class loadWaves : MonoBehaviour {
 		enemiesRemaining = numberArray[waveNumber - 1];
 		currentType = typeArray[waveNumber - 1];
 		int i = 0;
-		while (i < enemiesRemaining)
-		{
-			Rigidbody clone;
-			clone = Instantiate(prefab, start.transform.position, transform.rotation) as Rigidbody;
+		//while (i < enemiesRemaining)
+		//{
+			GameObject clone;
+			clone = Instantiate(prefab, start.transform.position, transform.rotation) as GameObject;
 			clone.BroadcastMessage("Move");
 			i++;
-		}
+		//}
 		Debug.Log ("Spawned");
 		return true;
 	}

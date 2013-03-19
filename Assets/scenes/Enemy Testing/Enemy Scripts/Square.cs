@@ -10,10 +10,10 @@ public class Square : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+		
 	}
 	void Move() {
-		rigidbody.AddForce(-10f,0,0);
+		//rigidbody.AddForce(-10f,0,0);
 		Debug.Log ("Moving");
 	}
 }
