@@ -1,0 +1,70 @@
+Travel
+    OnEnter
+        Move to path
+
+    OnUpdate
+        Move on path
+        Scan for enemies
+        Check HP
+
+    OnEvent FoundEnemy
+        Broadcast FoundEnemy
+        Go to attack 1
+
+    OnEvent Attacked
+        Go to attack 2
+
+    OnEvent LowHP
+        Flee
+
+    OnMessage TooClose
+        Slow down or speed up
+
+    OnMessage CareMortar
+        Halt if near
+
+    OnMessage LowHP
+        Go heal if able
+
+    OnMessage FoundEnemy
+        Go help fight if near
+
+
+Attack 1
+    OnEnter
+        Move to target
+
+    OnUpdate
+        Attack
+        Check HP
+
+    OnEvent Attacked
+        Go to attack 2
+
+    OnEvent LowHP
+        Flee
+        Alert LowHP
+
+
+Attack 2
+    OnEnter
+    OnUpdate
+    OnExit
+    OnEvent
+    OnMessage
+
+
+Flee
+    OnEnter
+    OnUpdate
+    OnExit
+    OnEvent
+    OnMessage
+
+
+Base
+    OnEnter
+    OnUpdate
+    OnExit
+    OnEvent
+    OnMessage
