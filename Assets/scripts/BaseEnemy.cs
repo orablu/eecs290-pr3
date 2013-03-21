@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System;
 
-public class Square : MonoBehaviour {
+public class BaseEnemy : MonoBehaviour {
 	public GameObject CurrentCheckpointTarget;
 	private GameObject[] checkpointList;
 	private int currentCheckpointNum;
@@ -39,7 +39,6 @@ public class Square : MonoBehaviour {
 			zVel = 0f;
 		Vector3 velocity = new Vector3(xVel,0,zVel);
 		rigidbody.velocity = velocity;
-		Debug.Log ("Moving");
 	}
 	
 	void advanceCheckpoint() {
