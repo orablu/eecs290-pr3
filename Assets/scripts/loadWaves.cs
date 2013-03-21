@@ -8,21 +8,22 @@ public class loadWaves : MonoBehaviour {
 	public string[] typeArray = new string[10];
 	public GameObject prefab;
 	public float spawnDelayTime;
-	
+	public int numEnemiesRemaining;
+		
 	private int waveNumber;
-	private int enemiesRemaining;
+	private int numEnemies;
 	private string currentType;
 	private GameObject start;
 	private GameObject end;
 	
 	void Start () {
-		waveNumber = 1;
+		waveNumber = 2;
 		spawnDelayTime = 2f;
 		start = GameObject.Find("Start");
 		end = GameObject.Find("Checkpoint 10");
 		
-		/* Code to load wave list file into two arrays, one of which has the 
-		 * type of enemy spawning, the other the number of enemies spawning.
+		/*	Code to load wave list file into two arrays, one of which has the 
+		 *	type of enemy spawning, the other the number of enemies spawning.
 		 */
 		int numberIndex = 0;
 		int typeIndex = 0;
@@ -44,27 +45,52 @@ public class loadWaves : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		
+	void LastUpdate () {
+		if(isWaveOver())
+		{
+			Debug.Log ("Wave Completed");
+			advanceWave();
+		}
 	}
 	
-	IEnumerator spawnDelay(float delayTime, int numEnemies, GameObject enemyObject) {
+	//	Calls spawn whatever enemyObject is numEnemies times with a delay of delayTime inbetween each
+	IEnumerator spawnDelay(float delayTime, int numEnemies, Object enemyObject) {
 		for(int i=0; i<numEnemies; i++) {
 			spawn (enemyObject);
 			yield return new WaitForSeconds(delayTime);
 		}
 	}
 	
+	/*	numEnemies = number of enemies to spawn for current wave
+	 * 	currentType = type of enemy to spawn for current wave
+	 * 	currentEnemy = base enemy object to clone
+	 */ 
 	void spawnWave()
 	{
-		enemiesRemaining = numberArray[waveNumber - 1];
+		numEnemiesRemaining = 0;
+		numEnemies = numberArray[waveNumber - 1];
 		currentType = typeArray[waveNumber - 1];
-		int i = 0;
-		StartCoroutine (spawnDelay (spawnDelayTime, enemiesRemaining, prefab));
+		Object currentEnemy = Resources.Load(currentType);
+		StartCoroutine (spawnDelay (spawnDelayTime, numEnemies, currentEnemy));
 	}
-	void spawn(GameObject enemyObject)
+	
+	//	Clones enemyObject and spawns it
+	void spawn(Object enemyObject)
 	{
 		GameObject clone;
 		clone = Instantiate(enemyObject, start.transform.position, transform.rotation) as GameObject;
+		numEnemiesRemaining++;
+	}
+	
+	void advanceWave() {
+			waveNumber++;
+			spawnWave();
+	}
+		
+	bool isWaveOver() {
+		if(numEnemiesRemaining == 0)
+			return true;
+		else
+			return false;
 	}
 }

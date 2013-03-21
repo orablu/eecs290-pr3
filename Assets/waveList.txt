@@ -1,3 +1,2 @@
 5 square
-3 circles
-5 triangles
+3 cylinder
