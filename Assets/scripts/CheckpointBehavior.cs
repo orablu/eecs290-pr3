@@ -15,6 +15,6 @@ public class CheckpointBehavior : MonoBehaviour {
 	
 	void OnTriggerEnter(Collider other) {
 		Debug.Log ("Checkpoint reached");
-        other.BroadcastMessage("advanceCheckpoint");
+        //other.BroadcastMessage("advanceCheckpoint");
     }
 }
