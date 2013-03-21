@@ -1,10 +1,11 @@
 /// Wes Rupert - wkr3
 /// EECS 290   - Project 03
-/// Purgatory  - tower.cs
+/// Purgatory  - Tower.cs
 /// Script to control general tower behavior.
 
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 /// <summary>
 /// An abstract class representing a generic tower.
@@ -48,6 +49,14 @@ public abstract class Tower : MonoBehaviour {
     private uint _HP, _lastHP;
 
     /// <summary>
+    /// The level the tower is currently at.
+    /// </summary>
+    public uint Level {
+        get;
+        private set;
+    }
+
+    /// <summary>
     /// The amount of damage the tower has dealt.
     /// </summary>
     public uint DamageCount {
@@ -63,6 +72,29 @@ public abstract class Tower : MonoBehaviour {
         private set;
     }
 
+    /// <summary>
+    /// The range of the tower.
+    /// </summary>
+    public double Range {
+        get {
+            return _range;
+        }
+        private set {
+            if (value < 0) {
+                _range = 0;
+            }
+            else {
+                _range = value;
+            }
+        }
+    }
+    private double _range;
+
+    /// <summary>
+    /// The tagets in the tower's range.
+    /// </summary>
+    protected List<GameObject> targets;
+
 #endregion
 
 #region Abstract Methods
@@ -70,22 +102,22 @@ public abstract class Tower : MonoBehaviour {
     /// <summary>
 	/// Use this for initialization
     /// </summary>
-	abstract void Start();
+	abstract protected void Start();
 	
     /// <summary>
 	/// Update is called once per frame
     /// </summary>
-	abstract void Update();
+	abstract protected void Update();
 
     /// <summary>
     /// Disables the tower.
     /// </summary>
-    abstract private void Disable();
+    abstract protected void Disable();
 
     /// <summary>
     /// Enables the tower.
     /// </summary>
-    abstract private void Enable();
+    abstract protected void Enable();
 
     /// <summary>
     /// Gives a string representation of te tower.
