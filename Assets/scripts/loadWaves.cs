@@ -13,10 +13,11 @@ public class loadWaves : MonoBehaviour {
 	private string currentType;
 	private GameObject start;
 	private GameObject end;
+	
 	void Start () {
 		waveNumber = 1;
 		start = GameObject.Find("Start");
-		end = GameObject.Find("End");
+		end = GameObject.Find("Checkpoint 10");
 		/********************************************************************
 		 * Code to load wave list file into two arrays, one of which has the 
 		 * type of enemy spawning, the other the number of enemies spawning.
@@ -24,7 +25,7 @@ public class loadWaves : MonoBehaviour {
 		int numberIndex = 0;
 		int typeIndex = 0;
 		
-		StreamReader streamReader = new StreamReader("Assets\\scenes\\Enemy Testing\\waveList.txt");
+		StreamReader streamReader = new StreamReader("Assets\\waveList.txt");
 		while(!streamReader.EndOfStream)
 		{
 			string line = streamReader.ReadLine();
@@ -54,7 +55,6 @@ public class loadWaves : MonoBehaviour {
 		//{
 			GameObject clone;
 			clone = Instantiate(prefab, start.transform.position, transform.rotation) as GameObject;
-			clone.BroadcastMessage("Move");
 			i++;
 		//}
 		Debug.Log ("Spawned");
