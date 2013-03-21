@@ -25,7 +25,7 @@ public class loadWaves : MonoBehaviour {
 		int numberIndex = 0;
 		int typeIndex = 0;
 		
-		StreamReader streamReader = new StreamReader("Assets\\scenes\\Enemy Testing\\waveList.txt");
+		StreamReader streamReader = new StreamReader("Assets\\waveList.txt");
 		while(!streamReader.EndOfStream)
 		{
 			string line = streamReader.ReadLine();
