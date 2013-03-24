@@ -17,7 +17,7 @@ public class loadWaves : MonoBehaviour {
 	private GameObject end;
 	
 	void Start () {
-		waveNumber = 2;
+		waveNumber = 1;
 		spawnDelayTime = 2f;
 		start = GameObject.Find("Start");
 		end = GameObject.Find("Checkpoint 10");
@@ -45,10 +45,9 @@ public class loadWaves : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void LastUpdate () {
+	void FixedUpdate () {
 		if(isWaveOver())
 		{
-			Debug.Log ("Wave Completed");
 			advanceWave();
 		}
 	}
@@ -92,5 +91,9 @@ public class loadWaves : MonoBehaviour {
 			return true;
 		else
 			return false;
+	}
+	
+	public void enemyKilled() {
+		numEnemiesRemaining--;
 	}
 }

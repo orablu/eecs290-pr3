@@ -6,6 +6,7 @@ public class BaseEnemy : MonoBehaviour {
 	public GameObject CurrentCheckpointTarget;
 	private GameObject[] checkpointList;
 	private int currentCheckpointNum;
+	
 	// Use this for initialization
 	void Start () {
 		checkpointList = new GameObject[10];
@@ -22,6 +23,8 @@ public class BaseEnemy : MonoBehaviour {
 	void Update () {
 		if(checkAtCheckpoint())
 			advanceCheckpoint();
+		
+			
 	}
 	void Move() {
 		float xVel, zVel;
