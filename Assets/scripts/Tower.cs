@@ -11,14 +11,18 @@ using System.Collections.Generic;
 /// An abstract class representing a generic tower.
 /// </summary>
 public abstract class Tower : MonoBehaviour {
-#region Properties
+#region Implemented
+
+    /// Internal variables for the properties with validation.
+    private uint _HP, _lastHP;
+    private double _range;
 
     /// <summary>
     /// The tower's maximum HP.
     /// </summary>
     public uint MaxHP {
         get;
-        private set;
+        protected set;
     }
     
     /// <summary>
@@ -46,14 +50,13 @@ public abstract class Tower : MonoBehaviour {
             }
         }
     }
-    private uint _HP, _lastHP;
 
     /// <summary>
     /// The level the tower is currently at.
     /// </summary>
     public uint Level {
         get;
-        private set;
+        protected set;
     }
 
     /// <summary>
@@ -61,7 +64,7 @@ public abstract class Tower : MonoBehaviour {
     /// </summary>
     public uint DamageCount {
         get;
-        private set;
+        protected set;
     }
 
     /// <summary>
@@ -69,7 +72,7 @@ public abstract class Tower : MonoBehaviour {
     /// </summary>
     public uint KillCount {
         get;
-        private set;
+        protected set;
     }
 
     /// <summary>
@@ -88,36 +91,77 @@ public abstract class Tower : MonoBehaviour {
             }
         }
     }
-    private double _range;
+
+    /// <summary>
+    /// The different types of targets a tower can aim at.
+    /// </summary>
+    public enum TargetIntent {
+        First,
+        Last,
+        Strongest,
+        Weakest,
+        Nearest
+    };
+
+    /// <summary>
+    /// The type of target to aim at.
+    /// </summary>
+    public TargetIntent intent {
+        get;
+        protected set;
+    }
 
     /// <summary>
     /// The tagets in the tower's range.
     /// </summary>
-    protected List<GameObject> targets;
+    protected List<GameObject> targets {
+        get;
+        protected set;
+    }
+
+    /// <summary>
+    /// The type of projectile fired.
+    /// </summary>
+    protected GameObject projectile;
 
 #endregion
 
-#region Abstract Methods
+#region Abstract
 
     /// <summary>
-	/// Use this for initialization
+    /// The buying price of the tower.
     /// </summary>
-	abstract protected void Start();
+    abstract public uint BuyPrice { get; }
+
+    /// <summary>
+    /// The sellng price of the tower.
+    /// </summary>
+    abstract public uint SellPrice { get; }
+
+    /// <summary>
+	/// Use this for initialization.
+    /// </summary>
+	abstract public void Start();
 	
     /// <summary>
-	/// Update is called once per frame
+	/// Update is called once per frame.
     /// </summary>
-	abstract protected void Update();
+	abstract public void Update();
 
     /// <summary>
     /// Disables the tower.
     /// </summary>
-    abstract protected void Disable();
+    abstract public void Disable();
 
     /// <summary>
     /// Enables the tower.
     /// </summary>
-    abstract protected void Enable();
+    abstract public void Enable();
+
+    /// <summary>
+    /// Fires a projectile.
+    /// </summary>
+    abstract public void Shoot();
 
     /// <summary>
     /// Gives a string representation of te tower.
