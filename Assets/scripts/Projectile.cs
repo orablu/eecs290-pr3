@@ -12,12 +12,23 @@ using System.Collections;
 public abstract class Projectile : MonoBehaviour {
 #region Implemented
 
-    // TODO: Add graphics and animation.
+    /// Internal variables for the properties with validation.
+    private uint _hitsleft;
+
+    /// <summary>
+    /// The tower that launched the projectile.
+    /// </summary>
+    public Tower ParentTower;
 
     /// <summary>
     /// The projectile's movement speed.
     /// </summary>
     public float Speed;
+
+    /// <summary>
+    /// The amount of damage the projectile can cause to a target.
+    /// </summary>
+    public uint Power;
 
     /// <summary>
     /// The maximum number of units the projectile can hit.
@@ -28,8 +39,17 @@ public abstract class Projectile : MonoBehaviour {
     /// The present number of hits remaining before the projectile is destroyed.
     /// </summary>
     public uint HitsLeft {
-        get;
-        protected set;
+        get {
+            return _hitsleft;
+        }
+        protected set {
+            bool die = (_hitsleft > 0) && (value == 0);
+            _hitsleft = (value < MaxHits) ? value : MaxHits;
+
+            if (die) {
+                Die();
+            }
+        }
     }
 
     /// <summary>
@@ -40,11 +60,12 @@ public abstract class Projectile : MonoBehaviour {
     /// <summary>
     /// Move the projectile toward the target.
     /// </summary>
-    public Vector3 Move() {
+    public Vector3 MoveToTarget() {
         Vector3 mypos = transform.position;
         Vector3 targetpos = Target.transform.position;
         return Vector3.MoveTowards(mypos, targetpos, Speed * time.deltaTime);
     }
+
 
 #endregion
 
@@ -53,6 +74,10 @@ public abstract class Projectile : MonoBehaviour {
     abstract public void Start();
 
     abstract public void Update();
+
+    abstract public void OnCollisionEnter(Collision collision);
+
+    abstract public void Die();
 
 #endregion
 }

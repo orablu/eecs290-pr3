@@ -32,7 +32,7 @@ public abstract class Tower : MonoBehaviour {
         get {
             return _HP;
         }
-        private set {
+        protected set {
             // Calculate the tests for enabling.
             bool enable = (_lastHP == 0) && (value > 0);
             bool disable = (value <= 0);
@@ -82,7 +82,7 @@ public abstract class Tower : MonoBehaviour {
         get {
             return _range;
         }
-        private set {
+        protected set {
             if (value < 0) {
                 _range = 0;
             }
@@ -106,7 +106,7 @@ public abstract class Tower : MonoBehaviour {
     /// <summary>
     /// The type of target to aim at.
     /// </summary>
-    public TargetIntent intent {
+    public TargetIntent Intent {
         get;
         protected set;
     }
@@ -114,7 +114,7 @@ public abstract class Tower : MonoBehaviour {
     /// <summary>
     /// The tagets in the tower's range.
     /// </summary>
-    protected List<GameObject> targets {
+    public List<GameObject> Targets {
         get;
         protected set;
     }
@@ -122,7 +122,7 @@ public abstract class Tower : MonoBehaviour {
     /// <summary>
     /// The type of projectile fired.
     /// </summary>
-    protected GameObject projectile;
+    public GameObject Projectile;
 
 #endregion
 
