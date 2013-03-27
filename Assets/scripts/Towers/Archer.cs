@@ -9,7 +9,7 @@ using System.Collections;
 /// <summary>
 /// A tower that shoots. Relatively cheap, 
 /// </summary>
-public class Shooter : Tower {
+public class Archer : Tower {
     /// <summary>
     /// The buying price of the tower.
     /// </summary>
