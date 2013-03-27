@@ -5,9 +5,8 @@ public class GameMaster : MonoBehaviour {
 	
 	public Texture2D archerTex; // Symbol for archer tower
 	public GUISkin TDSkin; // Custom skin to be used for all GUIs in game
-	private int selectionGridInt = 0; // Index for selected tower
+	public int selectionGridInt = 0; // Index for selected tower
 	private string[] selectionStrings = {"Archer", "Catapult", "Spike", "Healer"}; // Names of the Towers available for purchase
-	public GameObject testTower; // Prefab for a test tower to be placed
 	public GameObject gridPrefab;
 	
 	private GameObject newTower; 
@@ -25,10 +24,7 @@ public class GameMaster : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetMouseButtonDown(0)) {
-			
-			newTower = Instantiate(testTower, Input.mousePosition, Quaternion.identity) as GameObject;
-		}
+		
 	}
 	
 	void OnGUI(){
@@ -67,5 +63,11 @@ public class GameMaster : MonoBehaviour {
 		}
 		
 	}
+	
+	void towerDisplay(int towerType) {
+		selectionGridInt = towerType;
+	}
+	
+	
 	
 }
