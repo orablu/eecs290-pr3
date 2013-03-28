@@ -9,11 +9,13 @@ public class GameMaster : MonoBehaviour {
 	private string[] selectionStrings = {"Archer", "Catapult", "Spike", "Healer"}; // Names of the Towers available for purchase
 	public GameObject gridPrefab;
 	
-	private GameObject newTower; 
 	private GameObject gridPiece;
+	private KeyCode key;
+	
 	// Use this for initialization
 	void Start () {
-	
+		
+		/* Instantiates an multi-dimensional array of cubes, making a grid placement system for towers */
 		for (int i = -14; i < 15; i+=2) {
 			for (int j = -19; j < 20; j+=2) {
 				gridPiece = Instantiate(gridPrefab, new Vector3(j, 1, i), Quaternion.identity) as GameObject;
@@ -37,9 +39,7 @@ public class GameMaster : MonoBehaviour {
 		GUI.Label (new Rect (120,0,80,20), "1");
 		GUI.Label (new Rect (120,20,80,20), "100");
 		GUI.Label (new Rect (120,40,80,20), "0");
-		//GUI.Button (new Rect (0,60,100,30), new GUIContent ("Archer", archerTex, "Basic shooting tower"));
-		GUI.Label (new Rect (100,60,100,40), GUI.tooltip);
-		selectionGridInt = GUI.SelectionGrid (new Rect (0, 60, 200, 60), selectionGridInt, selectionStrings, 2);
+		selectionGridInt = GUI.SelectionGrid(new Rect (0, 60, 200, 60), selectionGridInt, selectionStrings, 2);
 		
 		/* Used to determine which tower to display in the tower preview area */
 		switch(selectionGridInt) {
@@ -62,8 +62,27 @@ public class GameMaster : MonoBehaviour {
 				break;
 		}
 		
+		/* Toggles GUI buttons with keyboard commands */
+		Event e = Event.current;
+		if (e.isKey) {
+			switch (e.keyCode) {
+				case KeyCode.Alpha1: 
+					selectionGridInt = 0;
+					break;
+				case KeyCode.Alpha2:
+					selectionGridInt = 1;
+					break;
+				case KeyCode.Alpha3:
+					selectionGridInt = 2;
+					break;
+				case KeyCode.Alpha4:
+					selectionGridInt = 3;
+					break;
+			}
+		}
 	}
 	
+	/* Called to display the tower currently selected */
 	void towerDisplay(int towerType) {
 		selectionGridInt = towerType;
 	}
