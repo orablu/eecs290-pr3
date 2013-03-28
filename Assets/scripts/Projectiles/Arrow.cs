@@ -10,22 +10,22 @@ using System.Collections;
 /// A tower that shoots. Relatively cheap, 
 /// </summary>
 public class Arrow : Projectile {
-    abstract public void Start() {
+    public override void Start() {
         // Nothing to do here.
     }
 
-    abstract public void Update() {
+    public override void Update() {
         MoveToTarget();
     }
 
-    public void OnCollisionEnter(Collision collision) {
-        if (collision.gameObject == target) {
-            collision.gameObject.SendMessage("Hit", Power, ParentTower);
+    public override void OnCollisionEnter(Collision collision) {
+        if (collision.gameObject == Target) {
+            collision.gameObject.SendMessage("Hit", new {power = Power, tower = ParentTower});
             HitsLeft--;
         }
     }
 
-    public void Die() {
+    public override void Die() {
         Destroy(this);
     }
 }

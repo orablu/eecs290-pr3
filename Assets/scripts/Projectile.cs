@@ -63,7 +63,7 @@ public abstract class Projectile : MonoBehaviour {
     public Vector3 MoveToTarget() {
         Vector3 mypos = transform.position;
         Vector3 targetpos = Target.transform.position;
-        return Vector3.MoveTowards(mypos, targetpos, Speed * time.deltaTime);
+        return Vector3.MoveTowards(mypos, targetpos, Speed * Time.deltaTime);
     }
 
 
