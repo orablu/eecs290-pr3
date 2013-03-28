@@ -17,7 +17,7 @@ public class Archer : Tower {
 
 #endregion
 
-#region Abstract Methods
+#region Abstract Implementations
 
     /// <summary>
     /// The name of the tower.
@@ -77,12 +77,6 @@ public class Archer : Tower {
 
     }
 
-    /// <summary>
-    /// Fires a projectile.
-    /// </summary>
-    public override void Shoot() {
-
-    }
 
 #endregion
 }

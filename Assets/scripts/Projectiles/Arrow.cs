@@ -10,8 +10,20 @@ using System.Collections;
 /// A tower that shoots. Relatively cheap, 
 /// </summary>
 public class Arrow : Projectile {
+#region Arrow Stats
+
+    public static float[] ArrowSpeed;
+    public static uint[] ArrowPower;
+    public static uint[] ArrowMaxHits;
+
+#endregion
+
+#region Abstract Implementations
+
     public override void Start() {
-        // Nothing to do here.
+        Speed = ArrowSpeed[Level - 1];
+        Power = ArrowPower[Level - 1];
+        MaxHits = ArrowMaxHits[Level - 1];
     }
 
     public override void Update() {
@@ -28,4 +40,6 @@ public class Arrow : Projectile {
     public override void Die() {
         Destroy(this);
     }
+
+#endregion
 }

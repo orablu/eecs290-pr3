@@ -21,6 +21,11 @@ public abstract class Projectile : MonoBehaviour {
     public Tower ParentTower;
 
     /// <summary>
+    /// The level the projectile is currently at.
+    /// </summary>
+    public uint Level;
+
+    /// <summary>
     /// The projectile's movement speed.
     /// </summary>
     public float Speed;

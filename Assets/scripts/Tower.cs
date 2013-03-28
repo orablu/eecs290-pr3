@@ -34,6 +34,9 @@ public abstract class Tower : MonoBehaviour {
         Support
     };
 
+    // Tower-specific strings.
+    private const string TOWERCLASSNOTFOUND = "ERROR - Tower class unknown";
+
 #endregion
 
 #region Implemented
@@ -85,7 +88,7 @@ public abstract class Tower : MonoBehaviour {
     /// <summary>
     /// The type of projectile fired.
     /// </summary>
-    public Projectile BulletPrefab { get; set; }
+    public Projectile ShotPrefab { get; set; }
 
     /// <summary>
     /// The speed the tower should rotate when turning towards a target.
@@ -149,12 +152,14 @@ public abstract class Tower : MonoBehaviour {
             case TowerClass.Support :
                 return string.Format("%d gold accumulated", DamageCount);
         }
+
+        return TOWERCLASSNOTFOUND;
     }
 
     /// <summary>
     /// Gives a string representation of the tower's macroachievements.
     /// </summary>
-    public string KillString() {
+    public string KillsString() {
         switch (Class) {
             case TowerClass.Shooter :
                 return string.Format("%d units killed", KillCount);
@@ -165,20 +170,18 @@ public abstract class Tower : MonoBehaviour {
             case TowerClass.Support :
                 return string.Format("%d units assisted", KillCount);
         }
-    }
 
-    /// <summary>
-    /// Turns the tower towards the target.
-    /// </summary>
-    public void TurnToTarget() {
-       var targetRotation = Quaternion.LookRotation(Target.transform.position - transform.position);
-       var str = Mathf.Min(RotateSpeed * Time.deltaTime, 1);
-       transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, str);
+        return TOWERCLASSNOTFOUND;
     }
 
     /// <summary>
     /// Shoots a projectile at the target.
     /// </summary>
+    public void Shoot() {
+        Projectile shot = Instantiate(ShotPrefab, transform.position, transform.rotation) as Projectile;
+        shot.ParentTower = this;
+        shot.Level = Level;
+    }
 
     /// <summary>
     /// Gives a string representation of te tower.
@@ -203,7 +206,7 @@ public abstract class Tower : MonoBehaviour {
     /// <summary>
     /// The name of the tower.
     /// </summary>
-    abstract protected string Name { get; }
+    abstract public string Name { get; }
 
     /// <summary>
     /// The buying price of the tower.
@@ -234,11 +237,6 @@ public abstract class Tower : MonoBehaviour {
     /// Enables the tower.
     /// </summary>
     abstract public void Enable();
-
-    /// <summary>
-    /// Fires a projectile.
-    /// </summary>
-    abstract public void Shoot();
 
 #endregion
 }
