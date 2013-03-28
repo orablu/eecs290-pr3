@@ -6,9 +6,13 @@ public class BaseEnemy : MonoBehaviour {
 	public GameObject CurrentCheckpointTarget;
 	private GameObject[] checkpointList;
 	private int currentCheckpointNum;
+	public float hp;
+	private GameObject waveMaster;
 	
 	// Use this for initialization
 	void Start () {
+		hp = 100f;
+		waveMaster = GameObject.Find ("WaveMaster");
 		checkpointList = new GameObject[10];
 		for(int i=0; i < 10; i++)
 		{
@@ -23,7 +27,7 @@ public class BaseEnemy : MonoBehaviour {
 	void Update () {
 		if(checkAtCheckpoint())
 			advanceCheckpoint();
-		
+		checkIfDead();
 			
 	}
 	void Move() {
@@ -59,6 +63,18 @@ public class BaseEnemy : MonoBehaviour {
 		}
 		else
 			return false;
+	}
+	
+	public void hit(float dmg) {
+		hp = hp - dmg;
+		checkIfDead();
+	}
+	
+	void checkIfDead() {
+		if(hp <= 0f) {
+			Destroy (gameObject);
+			waveMaster.BroadcastMessage("enemyKilled");
+		}
 	}
 		
 }
