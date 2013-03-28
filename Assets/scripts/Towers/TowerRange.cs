@@ -10,7 +10,7 @@ using System.Collections.Generic;
 /// <summary>
 /// The range of a tower.
 /// </summary>
-public class TowerRange {
+public class TowerRange : MonoBehaviour {
     public Tower ParentTower;
 
     void Start() {
