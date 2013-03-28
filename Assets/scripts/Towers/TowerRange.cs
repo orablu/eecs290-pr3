@@ -13,6 +13,10 @@ using System.Collections.Generic;
 public class TowerRange : MonoBehaviour {
     public Tower ParentTower;
 
+    public TowerRange(Tower parent) {
+        ParentTower = parent;
+    }
+
     void Start() {
         transform.localScale = new Vector3(
                 ParentTower.Range,

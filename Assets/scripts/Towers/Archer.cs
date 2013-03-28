@@ -19,8 +19,8 @@ public class Archer : Tower {
 
 #region Archer Stats
 
-    public static float[] ArcherShootSpeed;
-    public static uint[] ArcherMaxHP;
+    public float Lv1ArcherShootSpeed;
+    public int   Lv1ArcherMaxHP;
 
     private float timeToShoot;
 
@@ -40,7 +40,7 @@ public class Archer : Tower {
     /// <summary>
     /// The buying price of the tower.
     /// </summary>
-    public override uint BuyPrice {
+    public override int BuyPrice {
         get {
             // TODO: Implement.
             return 0;
@@ -50,7 +50,7 @@ public class Archer : Tower {
     /// <summary>
     /// The sellng price of the tower.
     /// </summary>
-    public override uint SellPrice {
+    public override int SellPrice {
         get {
             // TODO: Implement.
             return 0;
@@ -65,6 +65,8 @@ public class Archer : Tower {
         setArcherStats();
 
         HP = MaxHP;
+
+        RangeObject = new TowerRange(this);
         Targets = new HashSet<GameObject>();
         timeToShoot = ShootSpeed;
     }
@@ -114,7 +116,15 @@ public class Archer : Tower {
 #endregion
 
     private void setArcherStats() {
-        MaxHP = ArcherMaxHP[Level - 1];
-        ShootSpeed = ArcherShootSpeed[Level - 1];
+        switch (Level) {
+            case 1 :
+                MaxHP = Lv1ArcherMaxHP;
+                ShootSpeed = Lv1ArcherShootSpeed;
+                break;
+            default :
+                MaxHP = 1;
+                ShootSpeed = 1;
+                break;
+        }
     }
 }

@@ -13,8 +13,8 @@ public class Arrow : Projectile {
 #region Arrow Stats
 
     public static float[] ArrowSpeed;
-    public static uint[] ArrowPower;
-    public static uint[] ArrowMaxHits;
+    public static int[] ArrowPower;
+    public static int[] ArrowMaxHits;
 
 #endregion
 

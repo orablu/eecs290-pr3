@@ -44,12 +44,12 @@ public abstract class Tower : MonoBehaviour {
     /// <summary>
     /// The current max ID of a tower.
     /// </summary>
-    private static uint _currTowerID = 0;
+    private static int _currTowerID = 0;
 
     /// <summary>
     /// The tower's ID.
     /// </summary>
-    public uint TowerID {
+    public int TowerID {
         get {
             return _towerID;
         }
@@ -65,63 +65,63 @@ public abstract class Tower : MonoBehaviour {
     }
 
     /// Internal variables for the properties with validation.
-    private uint _HP, _lastHP, _towerID;
+    private int _HP, _lastHP, _towerID;
     private float _range;
 
     /// <summary>
     /// The tower's maximum HP.
     /// </summary>
-    public uint MaxHP { get; protected set; }
+    public int MaxHP;
 
     /// <summary>
     /// The level the tower is currently at.
     /// </summary>
-    public uint Level { get; protected set; }
+    public int Level;
 
     /// <summary>
     /// Whether or not the unit is a healer.
     /// </summary>
-    public TowerClass Class { get; protected set; }
+    public TowerClass Class;
 
     /// <summary>
     /// The amount of damage the tower has dealt.
     /// </summary>
-    public uint DamageCount { get; protected set; }
+    public int DamageCount;
 
     /// <summary>
     /// The number of units the tower has killed.
     /// </summary>
-    public uint KillCount { get; protected set; }
+    public int KillCount;
 
     /// <summary>
     /// The type of target to aim at.
     /// </summary>
-    public TargetIntent Intent { get; protected set; }
+    public TargetIntent Intent;
 
     /// <summary>
     /// The tagets in the tower's range.
     /// </summary>
-    public HashSet<GameObject> Targets { get; protected set; }
+    public HashSet<GameObject> Targets;
     
     /// <summary>
     /// The target the tower is currently targeting.
     /// </summary>
-    public GameObject Target { get; protected set; }
+    public GameObject Target;
 
     /// <summary>
     /// The type of projectile fired.
     /// </summary>
-    public Projectile ShotPrefab { get; set; }
+    public Projectile ShotPrefab;
 
     /// <summary>
     /// The speed the tower should rotate when turning towards a target.
     /// </summary>
-    public float ShootSpeed { get; set; }
+    public float ShootSpeed;
     
     /// <summary>
     /// The tower's current HP.
     /// </summary>
-    public uint HP {
+    public int HP {
         get {
             return _HP;
         }
@@ -132,7 +132,7 @@ public abstract class Tower : MonoBehaviour {
 
             // Update the current hp.
             _lastHP = _HP;
-            _HP = (value < MaxHP) ? (value > 0) ? value : 0 : MaxHP;
+            _HP = (value < MaxHP) ? ((value > 0) ? value : 0) : MaxHP;
 
             // Enable/disable the tower.
             if (enable) {
@@ -160,6 +160,11 @@ public abstract class Tower : MonoBehaviour {
             }
         }
     }
+
+    /// <summary>
+    /// The range object for the tower.
+    /// </summary>
+    public TowerRange RangeObject;
 
     /// <summary>
     /// Gives a string representation of the tower's microachievements.
@@ -225,12 +230,12 @@ public abstract class Tower : MonoBehaviour {
     /// <summary>
     /// The buying price of the tower.
     /// </summary>
-    abstract public uint BuyPrice { get; }
+    abstract public int BuyPrice { get; }
 
     /// <summary>
     /// The sellng price of the tower.
     /// </summary>
-    abstract public uint SellPrice { get; }
+    abstract public int SellPrice { get; }
 
     /// <summary>
 	/// Use this for initialization.

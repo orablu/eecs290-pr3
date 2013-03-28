@@ -13,7 +13,7 @@ public abstract class Projectile : MonoBehaviour {
 #region Implemented
 
     /// Internal variables for the properties with validation.
-    private uint _hitsleft;
+    private int _hitsleft;
 
     /// <summary>
     /// The tower that launched the projectile.
@@ -23,7 +23,7 @@ public abstract class Projectile : MonoBehaviour {
     /// <summary>
     /// The level the projectile is currently at.
     /// </summary>
-    public uint Level;
+    public int Level;
 
     /// <summary>
     /// The projectile's movement speed.
@@ -33,17 +33,17 @@ public abstract class Projectile : MonoBehaviour {
     /// <summary>
     /// The amount of damage the projectile can cause to a target.
     /// </summary>
-    public uint Power;
+    public int Power;
 
     /// <summary>
     /// The maximum number of units the projectile can hit.
     /// </summary>
-    public uint MaxHits;
+    public int MaxHits;
 
     /// <summary>
     /// The present number of hits remaining before the projectile is destroyed.
     /// </summary>
-    public uint HitsLeft {
+    public int HitsLeft {
         get {
             return _hitsleft;
         }
