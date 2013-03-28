@@ -41,9 +41,32 @@ public abstract class Tower : MonoBehaviour {
 
 #region Implemented
 
+    /// <summary>
+    /// The current max ID of a tower.
+    /// </summary>
+    private static uint _currTowerID = 0;
+
+    /// <summary>
+    /// The tower's ID.
+    /// </summary>
+    public uint TowerID {
+        get {
+            return _towerID;
+        }
+    }
+
+    /// <summary>
+    /// Sets the tower's ID to a unique ID.
+    /// </summary>
+    protected void setTowerID() {
+        if (_towerID == 0) {
+            _towerID = ++_currTowerID;
+        }
+    }
+
     /// Internal variables for the properties with validation.
-    private uint _HP, _lastHP;
-    private double _range;
+    private uint _HP, _lastHP, _towerID;
+    private float _range;
 
     /// <summary>
     /// The tower's maximum HP.
@@ -78,7 +101,7 @@ public abstract class Tower : MonoBehaviour {
     /// <summary>
     /// The tagets in the tower's range.
     /// </summary>
-    public List<GameObject> Targets { get; protected set; }
+    public HashSet<GameObject> Targets { get; protected set; }
     
     /// <summary>
     /// The target the tower is currently targeting.
@@ -93,7 +116,7 @@ public abstract class Tower : MonoBehaviour {
     /// <summary>
     /// The speed the tower should rotate when turning towards a target.
     /// </summary>
-    public float RotateSpeed { get; set; }
+    public float ShootSpeed { get; set; }
     
     /// <summary>
     /// The tower's current HP.
@@ -124,7 +147,7 @@ public abstract class Tower : MonoBehaviour {
     /// <summary>
     /// The range of the tower.
     /// </summary>
-    public double Range {
+    public float Range {
         get {
             return _range;
         }
@@ -175,15 +198,6 @@ public abstract class Tower : MonoBehaviour {
     }
 
     /// <summary>
-    /// Shoots a projectile at the target.
-    /// </summary>
-    public void Shoot() {
-        Projectile shot = Instantiate(ShotPrefab, transform.position, transform.rotation) as Projectile;
-        shot.ParentTower = this;
-        shot.Level = Level;
-    }
-
-    /// <summary>
     /// Gives a string representation of te tower.
     /// </summary>
     public string ToString() {
@@ -227,6 +241,11 @@ public abstract class Tower : MonoBehaviour {
 	/// Update is called once per frame.
     /// </summary>
 	abstract public void Update();
+
+    /// <summary>
+    /// Shoots a projectile at the target.
+    /// </summary>
+    public abstract void Shoot();
 
     /// <summary>
     /// Disables the tower.
