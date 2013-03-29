@@ -13,15 +13,7 @@ using System.Collections.Generic;
 public class TowerRange : MonoBehaviour {
     public Tower ParentTower;
 
-    public TowerRange(Tower parent) {
-        ParentTower = parent;
-    }
-
     void Start() {
-        transform.localScale = new Vector3(
-                ParentTower.Range,
-                ParentTower.Range,
-                1f);
     }
 
     void Update() {
@@ -34,5 +26,13 @@ public class TowerRange : MonoBehaviour {
 
     void OnTriggerExit(Collider collider) {
         ParentTower.Targets.Remove(collider.gameObject);
+    }
+
+    public void SetParent(Tower parent) {
+        ParentTower = parent;
+        transform.localScale = new Vector3(
+                ParentTower.Range,
+                ParentTower.Range,
+                1f);
     }
 }

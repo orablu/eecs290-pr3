@@ -66,7 +66,9 @@ public class Archer : Tower {
 
         HP = MaxHP;
 
-        RangeObject = new TowerRange(this);
+        RangeObject = Instantiate(RangePrefab) as TowerRange;
+        RangeObject.SetParent(this);
+
         Targets = new HashSet<GameObject>();
         timeToShoot = ShootSpeed;
     }
@@ -75,17 +77,19 @@ public class Archer : Tower {
 	/// Update is called once per frame.
     /// </summary>
 	public override void Update() {
+        // TODO: For debugging purposes only. Remove.
+        setArcherStats();
+
         // Count down to being able to shoot again.
         if (timeToShoot > 0) {
             timeToShoot -= Time.deltaTime;
         }
 
-        // Always look at target, if any.
-        if (Target != null) {
-            transform.LookAt(Target.transform);
-
-            // Shoot the target, if applicable.
-            if (timeToShoot < 0) {
+        // Shoot the target, if applicable.
+        if (timeToShoot < 0) {
+            GameObject target = ChooseTarget();
+            if (target != null) {
+                transform.LookAt(target.transform);
                 Shoot();
                 timeToShoot = ShootSpeed;
             }

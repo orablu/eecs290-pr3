@@ -21,7 +21,8 @@ public abstract class Tower : MonoBehaviour {
         Last,
         Strongest,
         Weakest,
-        Nearest
+        Nearest,
+        Random
     };
 
     /// <summary>
@@ -102,11 +103,6 @@ public abstract class Tower : MonoBehaviour {
     /// The tagets in the tower's range.
     /// </summary>
     public HashSet<GameObject> Targets;
-    
-    /// <summary>
-    /// The target the tower is currently targeting.
-    /// </summary>
-    public GameObject Target;
 
     /// <summary>
     /// The type of projectile fired.
@@ -162,9 +158,35 @@ public abstract class Tower : MonoBehaviour {
     }
 
     /// <summary>
+    /// The prefab for the TowerRange object.
+    /// </summary>
+    public TowerRange RangePrefab;
+
+    /// <summary>
     /// The range object for the tower.
     /// </summary>
     public TowerRange RangeObject;
+
+    public GameObject ChooseTarget() {
+        switch (Intent) {
+            case TargetIntent.First :
+                return null;
+            case TargetIntent.Last :
+                return null;
+            case TargetIntent.Strongest :
+                return null;
+            case TargetIntent.Weakest :
+                return null;
+            case TargetIntent.Nearest :
+                return null;
+            case TargetIntent.Random :
+                var enumerator = Targets.GetEnumerator();
+                enumerator.MoveNext();
+                return enumerator.Current;
+            default :
+                return null;
+        }
+    }
 
     /// <summary>
     /// Gives a string representation of the tower's microachievements.
