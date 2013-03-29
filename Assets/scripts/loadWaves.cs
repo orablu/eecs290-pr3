@@ -15,10 +15,12 @@ public class loadWaves : MonoBehaviour {
 	private string currentType;
 	private GameObject start;
 	private GameObject end;
+	private GameObject gameMaster;
 	
 	void Start () {
 		waveNumber = 1;
 		spawnDelayTime = 2f;
+		gameMaster = GameObject.Find ("GameMaster");
 		start = GameObject.Find("Start");
 		end = GameObject.Find("Checkpoint 10");
 		
@@ -46,10 +48,10 @@ public class loadWaves : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-		if(isWaveOver())
+		/*if(isWaveOver())
 		{
 			advanceWave();
-		}
+		}*/
 	}
 	
 	//	Calls spawn whatever enemyObject is numEnemies times with a delay of delayTime inbetween each
@@ -81,11 +83,14 @@ public class loadWaves : MonoBehaviour {
 		numEnemiesRemaining++;
 	}
 	
+	//  Call this to advance wave
 	void advanceWave() {
-			waveNumber++;
-			spawnWave();
+		waveNumber++;
+		//gameMaster.BroadcastMessage("advanceWave");
+		spawnWave();
 	}
-		
+	
+	//  Call to see if current wave is over
 	bool isWaveOver() {
 		if(numEnemiesRemaining == 0)
 			return true;
@@ -93,6 +98,7 @@ public class loadWaves : MonoBehaviour {
 			return false;
 	}
 	
+	//  Call when an enemy is killed
 	public void enemyKilled() {
 		numEnemiesRemaining--;
 	}

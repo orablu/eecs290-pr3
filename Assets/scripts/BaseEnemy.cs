@@ -8,6 +8,7 @@ public class BaseEnemy : MonoBehaviour {
 	private int currentCheckpointNum;
 	public float hp;
 	private GameObject waveMaster;
+	private GameObject target;
 	
 	// Use this for initialization
 	void Start () {
@@ -65,8 +66,9 @@ public class BaseEnemy : MonoBehaviour {
 			return false;
 	}
 	
-	public void hit(float dmg) {
+	public void hit(float dmg, GameObject source) {
 		hp = hp - dmg;
+		target = source;
 		checkIfDead();
 	}
 	
