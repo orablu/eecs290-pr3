@@ -21,28 +21,23 @@ public class BaseEnemy : MonoBehaviour {
 		}
 		CurrentCheckpointTarget = checkpointList[0];
 		currentCheckpointNum = 0;
-		Move ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		Move ();
 		if(checkAtCheckpoint())
 			advanceCheckpoint();
 		checkIfDead();
 			
 	}
 	void Move() {
-		rigidbody.velocity.Set(0,0,0);
-		transform.LookAt(CurrentCheckpointTarget.transform.position);
-		
-		//Vector3 velocity = Vector3.MoveTowards(transform.position, CurrentCheckpointTarget.transform.position, Time.deltaTime);
-		rigidbody.velocity = Vector3.forward;
+		rigidbody.position = Vector3.MoveTowards(rigidbody.position, CurrentCheckpointTarget.transform.position, Time.deltaTime);
 	}
 	
 	void advanceCheckpoint() {
 		currentCheckpointNum++;
 		CurrentCheckpointTarget = checkpointList[currentCheckpointNum];
-		Move ();
 	}
 	
 	bool checkAtCheckpoint() {
