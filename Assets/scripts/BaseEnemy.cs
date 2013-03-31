@@ -32,7 +32,16 @@ public class BaseEnemy : MonoBehaviour {
 			
 	}
 	void Move() {
-		float xVel, zVel;
+		/*rigidbody.velocity.Set(0,0,0);
+		float myX, myZ, tX, tZ;
+		myX = transform.position.x;
+		myZ = transform.position.z;
+		tX = CurrentCheckpointTarget.transform.position.x;
+		tZ = CurrentCheckpointTarget.transform.position.z;
+		transform.LookAt(CurrentCheckpointTarget.transform.position);
+		//Vector3 velocity = Vector3.MoveTowards(transform.position, CurrentCheckpointTarget.transform.position, Time.deltaTime);
+		rigidbody.velocity = new Vector3((tX-myX)/(Math.Abs (tX-myX)+.00001f), 0, (tZ-myZ)/(Math.Abs(tZ-myZ)+.00001f));
+		
 		if((transform.position.x - CurrentCheckpointTarget.transform.position.x) > .1)
 			xVel = -1f;
 		else if((transform.position.x - CurrentCheckpointTarget.transform.position.x) < -.1)
@@ -47,6 +56,7 @@ public class BaseEnemy : MonoBehaviour {
 			zVel = 0f;
 		Vector3 velocity = new Vector3(xVel,0,zVel);
 		rigidbody.velocity = velocity;
+		*/
 	}
 	
 	void advanceCheckpoint() {
