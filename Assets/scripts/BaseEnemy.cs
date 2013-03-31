@@ -14,8 +14,8 @@ public class BaseEnemy : MonoBehaviour {
 	void Start () {
 		hp = 100f;
 		waveMaster = GameObject.Find ("WaveMaster");
-		checkpointList = new GameObject[10];
-		for(int i=0; i < 10; i++)
+		checkpointList = new GameObject[13];
+		for(int i=0; i < 13; i++)
 		{
 			checkpointList[i] = GameObject.Find ("Checkpoint "+ (i+1));
 		}
@@ -32,31 +32,11 @@ public class BaseEnemy : MonoBehaviour {
 			
 	}
 	void Move() {
-		/*rigidbody.velocity.Set(0,0,0);
-		float myX, myZ, tX, tZ;
-		myX = transform.position.x;
-		myZ = transform.position.z;
-		tX = CurrentCheckpointTarget.transform.position.x;
-		tZ = CurrentCheckpointTarget.transform.position.z;
+		rigidbody.velocity.Set(0,0,0);
 		transform.LookAt(CurrentCheckpointTarget.transform.position);
-		//Vector3 velocity = Vector3.MoveTowards(transform.position, CurrentCheckpointTarget.transform.position, Time.deltaTime);
-		rigidbody.velocity = new Vector3((tX-myX)/(Math.Abs (tX-myX)+.00001f), 0, (tZ-myZ)/(Math.Abs(tZ-myZ)+.00001f));
 		
-		if((transform.position.x - CurrentCheckpointTarget.transform.position.x) > .1)
-			xVel = -1f;
-		else if((transform.position.x - CurrentCheckpointTarget.transform.position.x) < -.1)
-			xVel = 1f;
-		else
-			xVel = 0f;
-		if((transform.position.z - CurrentCheckpointTarget.transform.position.z) > .1)
-			zVel = -1f;
-		else if((transform.position.z - CurrentCheckpointTarget.transform.position.z) < -.1)
-			zVel = 1f;
-		else
-			zVel = 0f;
-		Vector3 velocity = new Vector3(xVel,0,zVel);
-		rigidbody.velocity = velocity;
-		*/
+		//Vector3 velocity = Vector3.MoveTowards(transform.position, CurrentCheckpointTarget.transform.position, Time.deltaTime);
+		rigidbody.velocity = Vector3.forward;
 	}
 	
 	void advanceCheckpoint() {
