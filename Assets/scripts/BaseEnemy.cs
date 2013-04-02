@@ -25,14 +25,23 @@ public class BaseEnemy : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		Move ();
+		// If there is no target, move towards checkpoint
+		if(target == null)
+			MoveToTarget ((GameObject) CurrentCheckpointTarget);
+		// Else move towards that target
+		else 
+			MoveToTarget (target);
+		
 		if(checkAtCheckpoint())
 			advanceCheckpoint();
+		
 		checkIfDead();
 			
 	}
-	void Move() {
-		rigidbody.position = Vector3.MoveTowards(rigidbody.position, CurrentCheckpointTarget.transform.position, Time.deltaTime);
+	
+	// Advances one step toward obj.  Must be called in update
+	public void MoveToTarget(GameObject obj) {
+		rigidbody.position = Vector3.MoveTowards(rigidbody.position, obj.transform.position, Time.deltaTime);
 	}
 	
 	void advanceCheckpoint() {
