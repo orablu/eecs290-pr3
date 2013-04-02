@@ -98,7 +98,7 @@ public class loadWaves : MonoBehaviour {
 			return false;
 	}
 	
-	//  Call when an enemy is killed
+	//  `Call when an enemy is killed
 	public void enemyKilled() {
 		numEnemiesRemaining--;
 	}

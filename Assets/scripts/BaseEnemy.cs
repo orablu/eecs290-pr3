@@ -4,11 +4,12 @@ using System;
 
 public class BaseEnemy : MonoBehaviour {
 	public GameObject CurrentCheckpointTarget;
-	private GameObject[] checkpointList;
-	private int currentCheckpointNum;
 	public float hp;
+	
 	private GameObject waveMaster;
 	private GameObject target;
+	private GameObject[] checkpointList;
+	private int currentCheckpointNum;
 	
 	// Use this for initialization
 	void Start () {
@@ -24,24 +25,18 @@ public class BaseEnemy : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		// If there is no target, move towards checkpoint
-		if(target == null)
-			MoveToTarget ((GameObject) CurrentCheckpointTarget);
-		// Else move towards that target
-		else 
-			MoveToTarget (target);
-		
-		if(checkAtCheckpoint())
-			advanceCheckpoint();
-		
+	void FixedUpdate () 
+	{
+		StepToTarget(CurrentCheckpointTarget);
 		checkIfDead();
-			
 	}
 	
 	// Advances one step toward obj.  Must be called in update
-	public void MoveToTarget(GameObject obj) {
+	public void StepToTarget(GameObject obj) {
 		rigidbody.position = Vector3.MoveTowards(rigidbody.position, obj.transform.position, Time.deltaTime);
+		// If you are at the current checkpoint after moving, start advancing to the next
+		if(checkAtCheckpoint())
+			advanceCheckpoint();
 	}
 	
 	void advanceCheckpoint() {
@@ -49,10 +44,23 @@ public class BaseEnemy : MonoBehaviour {
 		CurrentCheckpointTarget = checkpointList[currentCheckpointNum];
 	}
 	
-	bool checkAtCheckpoint() {
-		if (Math.Abs (transform.position.x - CurrentCheckpointTarget.transform.position.x) <=.1 && Math.Abs (transform.position.z - CurrentCheckpointTarget.transform.position.z) <=.1)
+	bool atTarget(GameObject obj) {
+		if (Math.Abs (transform.position.x - obj.transform.position.x) <=.1 && 
+			Math.Abs (transform.position.z - obj.transform.position.z) <=.1)
 		{
-			rigidbody.velocity = new Vector3(0f,0f,0f);
+			//rigidbody.velocity = new Vector3(0f,0f,0f);
+			transform.position.Set(obj.transform.position.x,transform.position.y,obj.transform.position.z);
+			return true;
+		}
+		else
+			return false;
+	}
+	
+	bool checkAtCheckpoint() {
+		if (Math.Abs (transform.position.x - CurrentCheckpointTarget.transform.position.x) <=.1 && 
+			Math.Abs (transform.position.z - CurrentCheckpointTarget.transform.position.z) <=.1)
+		{
+			//rigidbody.velocity = new Vector3(0f,0f,0f);
 			transform.position.Set(CurrentCheckpointTarget.transform.position.x,transform.position.y,CurrentCheckpointTarget.transform.position.z);
 			return true;
 		}
