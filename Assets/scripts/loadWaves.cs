@@ -3,14 +3,13 @@ using System.Collections;
 using System.IO;
 
 public class loadWaves : MonoBehaviour {
-	// Use this for initialization
 	public int[] numberArray = new int[10];
 	public string[] typeArray = new string[10];
 	public GameObject prefab;
 	public float spawnDelayTime;
 	public int numEnemiesRemaining;
-		
-	private int waveNumber;
+	public int waveNumber;
+	
 	private int numEnemies;
 	private string currentType;
 	private GameObject start;
@@ -18,7 +17,7 @@ public class loadWaves : MonoBehaviour {
 	private GameObject gameMaster;
 	
 	void Start () {
-		waveNumber = 1;
+		waveNumber = 0;
 		spawnDelayTime = 2f;
 		gameMaster = GameObject.Find ("GameMaster");
 		start = GameObject.Find("Start");
@@ -43,7 +42,7 @@ public class loadWaves : MonoBehaviour {
 		}
 		streamReader.Close();
 		
-		spawnWave ();
+		//spawnWave ();
 	}
 	
 	// Update is called once per frame
@@ -75,7 +74,7 @@ public class loadWaves : MonoBehaviour {
 		StartCoroutine (spawnDelay (spawnDelayTime, numEnemies, currentEnemy));
 	}
 	
-	//	Clones enemyObject and spawns it
+	//Clones enemyObject and spawns it
 	void spawn(Object enemyObject)
 	{
 		GameObject clone;
@@ -83,23 +82,35 @@ public class loadWaves : MonoBehaviour {
 		numEnemiesRemaining++;
 	}
 	
-	//  Call this to advance wave
-	void advanceWave() {
+	// Call this to advance wave
+	public void advanceWave() {
 		waveNumber++;
 		//gameMaster.BroadcastMessage("advanceWave");
 		spawnWave();
 	}
 	
-	//  Call to see if current wave is over
-	bool isWaveOver() {
-		if(numEnemiesRemaining == 0)
+	// Call to see if current wave is over
+	public bool isWaveOver() {
+		if(numEnemiesRemaining == 0) {
+			gameMaster.BroadcastMessage("endRound");
 			return true;
+		}
 		else
 			return false;
 	}
 	
-	//  Call when an enemy is killed
+	// Call when an enemy is killed
 	public void enemyKilled() {
 		numEnemiesRemaining--;
+		isWaveOver();
+	}
+	
+	public void enemyFinished() {
+		numEnemiesRemaining--;
+		isWaveOver ();
+	}
+	
+	public int getWaveNumber() {
+		return waveNumber;
 	}
 }
