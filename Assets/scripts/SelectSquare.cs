@@ -34,7 +34,7 @@ public class SelectSquare : MonoBehaviour {
 	
 	void OnMouseDown() {
 		
-		if (empty) { // If the cube is empty, places a tower and alters the properties of the piece
+		if (empty && !unavailable) { // If the cube is empty, places a tower and alters the properties of the piece
 			towerType = gmScript.selectionGridInt;
 			newTower = Instantiate(prefabs[towerType], transform.position, Quaternion.identity) as GameObject;  
 			empty = false;
@@ -42,16 +42,13 @@ public class SelectSquare : MonoBehaviour {
 		} else if (tower) { // If there is a tower, send a message to the GameMaster to update the GUI
 			GameObject.Find("GameMaster").SendMessage("towerDisplay", towerType);	
 		} else {
-			print("Not an available area to build on");
+			Debug.Log ("Not an available area to build on");
 		}
 	}
 	
 	void OnMouseOver() {
 		if (!unavailable) {
 			renderer.enabled = true; // Show the Selection area
-			if (tower) { // TODO: select different ranges for different towers
-				renderer.material.SetTexture("_MainTex", rangeImage); // If there is a tower there, show a range
-			}
 		}
     }
 	
