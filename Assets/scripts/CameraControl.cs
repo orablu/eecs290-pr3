@@ -2,7 +2,9 @@ using UnityEngine;
 using System.Collections;
 
 public class CameraControl : MonoBehaviour {
-
+	
+	public float leftBorder = -17f, rightBorder = 15.5f, upperBorder = -2.5f, lowerBorder = -12.5f;
+	
 	// Use this for initialization
 	void Start () {
 	
@@ -12,19 +14,23 @@ public class CameraControl : MonoBehaviour {
 	void Update () {
 		if(Input.GetKey ("w"))
 		{
-			transform.Translate (0,.5f,0);
+			if (transform.position.z < upperBorder)
+				transform.Translate (0,.5f,0);
 		}
 		else if(Input.GetKey ("s"))
 		{
-			transform.Translate (0,-.5f,0);
+			if (transform.position.z >= lowerBorder)
+				transform.Translate (0,-.5f,0);
 		}
 		else if(Input.GetKey ("a"))
 		{
-			transform.Translate (-.5f,0,0);
+			if (transform.position.x > leftBorder)
+				transform.Translate (-.5f,0,0);
 		}
 		else if(Input.GetKey ("d"))
 		{
-			transform.Translate (.5f,0,0);
+			if (transform.position.x < rightBorder)
+				transform.Translate (.5f,0,0);
 		}
 	}
 }
