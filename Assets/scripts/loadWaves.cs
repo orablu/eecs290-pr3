@@ -3,7 +3,6 @@ using System.Collections;
 using System.IO;
 
 public class loadWaves : MonoBehaviour {
-	// Use this for initialization
 	public int[] numberArray = new int[10];
 	public string[] typeArray = new string[10];
 	public GameObject prefab;
@@ -48,10 +47,10 @@ public class loadWaves : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-		/*if(isWaveOver())
+		if(isWaveOver())
 		{
 			advanceWave();
-		}*/
+		}
 	}
 	
 	//	Calls spawn whatever enemyObject is numEnemies times with a delay of delayTime inbetween each
@@ -75,7 +74,7 @@ public class loadWaves : MonoBehaviour {
 		StartCoroutine (spawnDelay (spawnDelayTime, numEnemies, currentEnemy));
 	}
 	
-	//	Clones enemyObject and spawns it
+	//Clones enemyObject and spawns it
 	void spawn(Object enemyObject)
 	{
 		GameObject clone;
@@ -83,14 +82,14 @@ public class loadWaves : MonoBehaviour {
 		numEnemiesRemaining++;
 	}
 	
-	//  Call this to advance wave
+	// Call this to advance wave
 	void advanceWave() {
 		waveNumber++;
 		//gameMaster.BroadcastMessage("advanceWave");
 		spawnWave();
 	}
 	
-	//  Call to see if current wave is over
+	// Call to see if current wave is over
 	bool isWaveOver() {
 		if(numEnemiesRemaining == 0)
 			return true;
@@ -98,8 +97,12 @@ public class loadWaves : MonoBehaviour {
 			return false;
 	}
 	
-	//  `Call when an enemy is killed
+	// Call when an enemy is killed
 	public void enemyKilled() {
+		numEnemiesRemaining--;
+	}
+	
+	public void enemyFinished() {
 		numEnemiesRemaining--;
 	}
 }
