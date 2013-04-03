@@ -17,22 +17,24 @@ public class TowerRange : MonoBehaviour {
     }
 
     void Update() {
-    
     }
 
     void OnTriggerEnter(Collider collider) {
         ParentTower.Targets.Add(collider.gameObject);
+        Debug.Log("Enemy added to " + ParentTower.TowerID);
     }
 
     void OnTriggerExit(Collider collider) {
         ParentTower.Targets.Remove(collider.gameObject);
+        Debug.Log("Enemy removed from " + ParentTower.TowerID);
     }
 
     public void SetParent(Tower parent) {
         ParentTower = parent;
+        transform.position = ParentTower.transform.position;
         transform.localScale = new Vector3(
                 ParentTower.Range,
-                ParentTower.Range,
-                1f);
+                1f,
+                ParentTower.Range);
     }
 }

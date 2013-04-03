@@ -104,6 +104,8 @@ public abstract class Tower : MonoBehaviour {
     /// </summary>
     public HashSet<GameObject> Targets;
 
+    public GameObject Target;
+
     /// <summary>
     /// The type of projectile fired.
     /// </summary>

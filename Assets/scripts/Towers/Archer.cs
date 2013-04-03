@@ -21,6 +21,7 @@ public class Archer : Tower {
 
     public float Lv1ArcherShootSpeed;
     public int   Lv1ArcherMaxHP;
+    public float Lv1ArcherRange;
 
     private float timeToShoot;
 
@@ -80,6 +81,8 @@ public class Archer : Tower {
         // TODO: For debugging purposes only. Remove.
         setArcherStats();
 
+        populatedebuginfo();
+
         // Count down to being able to shoot again.
         if (timeToShoot > 0) {
             timeToShoot -= Time.deltaTime;
@@ -88,6 +91,7 @@ public class Archer : Tower {
         // Shoot the target, if applicable.
         if (timeToShoot < 0) {
             GameObject target = ChooseTarget();
+            Target = target;
             if (target != null) {
                 transform.LookAt(target.transform);
                 Shoot();
@@ -124,11 +128,27 @@ public class Archer : Tower {
             case 1 :
                 MaxHP = Lv1ArcherMaxHP;
                 ShootSpeed = Lv1ArcherShootSpeed;
+                Range = Lv1ArcherRange;
                 break;
             default :
                 MaxHP = 1;
                 ShootSpeed = 1;
+                Range = 5;
                 break;
+        }
+    }
+
+    public GameObject Target1, Target2, Target3;
+    private void populatedebuginfo() {
+        IEnumerator<GameObject> it = Targets.GetEnumerator();
+        if (it.MoveNext()) {
+            Target1 = it.Current;
+        }
+        if (it.MoveNext()) {
+            Target2 = it.Current;
+        }
+        if (it.MoveNext()) {
+            Target3 = it.Current;
         }
     }
 }
