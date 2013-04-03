@@ -66,5 +66,10 @@ public class SelectSquare : MonoBehaviour {
 		renderer.enabled = false;
 	}
 	
+	void setAvailable() {
+		unavailable = false;
+		
+	}
+	
 	
 }

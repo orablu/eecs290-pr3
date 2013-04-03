@@ -73,7 +73,35 @@ public class GameMaster : MonoBehaviour {
 			gridPieces[i][7].gameObject.SendMessage("setUnavailable");
 			gridPieces[i][8].gameObject.SendMessage("setUnavailable");
 		}
-	}
+		
+		for (int i = 27; i < 31; i++) 
+			for (int j = i - 25; j < i - 22; j++)
+				gridPieces[i][j].gameObject.SendMessage("setUnavailable");
+		for (int i = 12; i > 9; i--) 
+			for (int j = 14 - (i - 5); j > 14 - (i - 2); j--) {
+				gridPieces[i][j].gameObject.SendMessage("setUnavailable");
+				gridPieces[i][j + 2].gameObject.SendMessage("setUnavailable");
+		}
+		for (int i = 17; i < 22; i++)
+			for (int j = i - 10; j < i - 8; j++) {
+				if ( i < 19 && j == i - 10)
+					gridPieces[i][j].gameObject.SendMessage("setUnavailable");
+				if ( i < 20 )
+					gridPieces[i + 2][j].gameObject.SendMessage("setUnavailable");
+				if ( i > 19 )
+					gridPieces[i + 2][j - 2].gameObject.SendMessage("setUnavailable");
+		}
+		
+		gridPieces[18][7].gameObject.SendMessage("setUnavailable");
+		gridPieces[17][8].gameObject.SendMessage("setUnavailable");
+		gridPieces[16][7].gameObject.SendMessage("setUnavailable");
+		gridPieces[22][8].gameObject.SendMessage("setUnavailable");
+		gridPieces[19][9].gameObject.SendMessage("setUnavailable");
+		gridPieces[22][10].gameObject.SendMessage("setUnavailable");
+		gridPieces[21][8].gameObject.SendMessage("setUnavailable");
+		gridPieces[22][8].gameObject.SendMessage("setAvailable");
+		
+	}	
 	
 	// Update is called once per frame
 	void Update () {
@@ -138,8 +166,6 @@ public class GameMaster : MonoBehaviour {
 			}
 		}
 		
-		if (GUI.Button (new Rect (Screen.width/2, Screen.height * 3/4, 100, 100), "End Round"))
-			endRound();
 	}
 	
 	/* Called to display the tower currently selected */
