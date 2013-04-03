@@ -6,14 +6,16 @@ public class BaseEnemy : MonoBehaviour {
 	private GameObject checkpointTarget;
 	public float speed;
 	public float hp;
+	public GameObject currentTarget;
 	
 	private Vector3 pointLeftPath;
 	private GameObject storedTarget;
 	private GameObject waveMaster;
-	public GameObject currentTarget;
 	private GameObject[] checkpointList;
+	private bool attackingTowers;
 	private int currentCheckpointNum;
-	
+	private bool offPath;
+	private Vector3 leftPathAt;
 	// Use this for initialization
 	void Start () {
 		hp = 100f;
@@ -27,6 +29,8 @@ public class BaseEnemy : MonoBehaviour {
 		currentTarget = checkpointTarget;
 		currentCheckpointNum = 0;
 		speed = 3f;
+		attackingTowers = false;
+		offPath = false;
 	}
 	
 	// Update is called once per frame
@@ -37,15 +41,37 @@ public class BaseEnemy : MonoBehaviour {
 	
 	// Advances one step toward obj.  Must be called in update
 	public void StepToTarget(GameObject obj) {
-		rigidbody.position = Vector3.MoveTowards(rigidbody.position, obj.transform.position, speed*Time.deltaTime);
-		// If you are at the current checkpoint after moving, start advancing to the next
-		if(checkAtCheckpoint()) {
-			if(currentCheckpointNum == checkpointList.Length - 1) {
-				Destroy (gameObject);
-				waveMaster.BroadcastMessage("enemyFinished");
+		// If you are not attacking towers AND not on the path, you are on the path, so check if at current target (next checkpoint)
+		if(!attackingTowers && !offPath) {
+			rigidbody.position = Vector3.MoveTowards(rigidbody.position, obj.transform.position, speed*Time.deltaTime);
+			if(atTarget (currentTarget)) {
+				if(currentCheckpointNum == checkpointList.Length - 1) {
+					Destroy (gameObject);
+					waveMaster.BroadcastMessage("enemyFinished");
+				}
+				else
+					advanceCheckpoint();
 			}
-			else
-				advanceCheckpoint();
+		}
+		// If you are attacking towers, save your spot if you're on the path and move towards it than attack
+		else if(attackingTowers){
+			// If you are still on the path, save your position before leaving
+			if(!offPath) {
+				leftPathAt = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+				offPath = !offPath;
+			}
+			rigidbody.position = Vector3.MoveTowards(rigidbody.position, obj.transform.position, speed*Time.deltaTime);
+			if(atTarget (currentTarget) ) {
+				attack(currentTarget);
+			}
+		}
+		// If you are not attacking towers and you're off the path, move back to your saved spot
+		else if(!attackingTowers && offPath) {
+			rigidbody.position = Vector3.MoveTowards(rigidbody.position, pointLeftPath, speed*Time.deltaTime);
+			// If you're at the spot you left the path
+			if(transform.position == pointLeftPath) {
+				offPath = !offPath;
+			}
 		}
 	}
 	
@@ -58,32 +84,31 @@ public class BaseEnemy : MonoBehaviour {
 	bool atTarget(GameObject obj) {
 		if (Math.Abs (transform.position.x - obj.transform.position.x) <=.1 && 
 			Math.Abs (transform.position.z - obj.transform.position.z) <=.1) {
-			//rigidbody.velocity = new Vector3(0f,0f,0f);
 			transform.position.Set(obj.transform.position.x,transform.position.y,obj.transform.position.z);
 			return true;
 		}
 		else
 			return false;
 	}
-	
-	bool checkAtCheckpoint() {
-		if (Math.Abs (transform.position.x - checkpointTarget.transform.position.x) <=.1 && 
-			Math.Abs (transform.position.z - checkpointTarget.transform.position.z) <=.1) {
-			//rigidbody.velocity = new Vector3(0f,0f,0f);
-			transform.position.Set(checkpointTarget.transform.position.x,transform.position.y,checkpointTarget.transform.position.z);
-			return true;
-		}
-		else
-			return false;
-	}
-	
-	public void hit(float dmg, GameObject source) {
+
+	public void hit(object[] args) {
+		float dmg = (float) args[0];
 		hp = hp - dmg;
 		storedTarget = currentTarget;
-		currentTarget = source;
+		currentTarget = (GameObject) args[1];
+		if(!attackingTowers)
+			attackingTowers = !attackingTowers;
 		checkIfDead();
 	}
 	
+	public void attack(GameObject target) {
+		//Send target a message with amount of damage done
+		//Check if you killed the target
+		//If target = dead
+		//	currentTarget = storedTarget
+		//	attackingTowers = false
+		
+	}
 	void checkIfDead() {
 		if(hp <= 0f) {
 			Destroy (gameObject);
