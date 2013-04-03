@@ -13,7 +13,7 @@ public class GameMaster : MonoBehaviour {
 	private KeyCode key;
 	
 	public int waveCount = 1, baseHealth = 100, gold; // User Resources & Wave info
-	private GUI waves, baseHp, curGold;
+	
 	// Use this for initialization
 	void Start () {
 		
@@ -39,9 +39,9 @@ public class GameMaster : MonoBehaviour {
 		GUI.Label (new Rect (0,0,100,20), "Wave Number:");
 		GUI.Label (new Rect (0,20,100,20), "Base Health:");
 		GUI.Label (new Rect (0,40,100,20), "Gold:");
-		waves = GUI.Label (new Rect (120,0,80,20), waveCount.ToString());
-		baseHp = GUI.Label (new Rect (120,20,80,20), baseHealth.ToString());
-		curGold = GUI.Label (new Rect (120,40,80,20), gold.ToString());
+		GUI.Label (new Rect (120,0,80,20), waveCount.ToString());
+		GUI.Label (new Rect (120,20,80,20), baseHealth.ToString());
+		GUI.Label (new Rect (120,40,80,20), gold.ToString());
 		selectionGridInt = GUI.SelectionGrid(new Rect (0, 60, 200, 60), selectionGridInt, selectionStrings, 2);
 		
 		/* Used to determine which tower to display in the tower preview area */
