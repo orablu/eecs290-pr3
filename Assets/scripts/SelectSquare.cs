@@ -47,10 +47,11 @@ public class SelectSquare : MonoBehaviour {
 	}
 	
 	void OnMouseOver() {
-		
-		renderer.enabled = true; // Show the Selection area
-		if (tower) { // TODO: select different ranges for different towers
-			renderer.material.SetTexture("_MainTex", rangeImage); // If there is a tower there, show a range
+		if (!unavailable) {
+			renderer.enabled = true; // Show the Selection area
+			if (tower) { // TODO: select different ranges for different towers
+				renderer.material.SetTexture("_MainTex", rangeImage); // If there is a tower there, show a range
+			}
 		}
     }
 	
@@ -62,6 +63,7 @@ public class SelectSquare : MonoBehaviour {
 	// Will be used to alter what blocks are available depending on map path
 	void setUnavailable() {
 		unavailable = true;	
+		renderer.enabled = false;
 	}
 	
 	
