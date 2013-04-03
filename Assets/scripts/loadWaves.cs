@@ -8,8 +8,8 @@ public class loadWaves : MonoBehaviour {
 	public GameObject prefab;
 	public float spawnDelayTime;
 	public int numEnemiesRemaining;
-		
-	private int waveNumber;
+	public int waveNumber;
+	
 	private int numEnemies;
 	private string currentType;
 	private GameObject start;
@@ -17,7 +17,7 @@ public class loadWaves : MonoBehaviour {
 	private GameObject gameMaster;
 	
 	void Start () {
-		waveNumber = 1;
+		waveNumber = 0;
 		spawnDelayTime = 2f;
 		gameMaster = GameObject.Find ("GameMaster");
 		start = GameObject.Find("Start");
@@ -42,15 +42,15 @@ public class loadWaves : MonoBehaviour {
 		}
 		streamReader.Close();
 		
-		spawnWave ();
+		//spawnWave ();
 	}
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-		if(isWaveOver())
+		/*if(isWaveOver())
 		{
 			advanceWave();
-		}
+		}*/
 	}
 	
 	//	Calls spawn whatever enemyObject is numEnemies times with a delay of delayTime inbetween each
@@ -83,16 +83,18 @@ public class loadWaves : MonoBehaviour {
 	}
 	
 	// Call this to advance wave
-	void advanceWave() {
+	public void advanceWave() {
 		waveNumber++;
 		//gameMaster.BroadcastMessage("advanceWave");
 		spawnWave();
 	}
 	
 	// Call to see if current wave is over
-	bool isWaveOver() {
-		if(numEnemiesRemaining == 0)
+	public bool isWaveOver() {
+		if(numEnemiesRemaining == 0) {
+			gameMaster.BroadcastMessage("endRound");
 			return true;
+		}
 		else
 			return false;
 	}
@@ -100,9 +102,15 @@ public class loadWaves : MonoBehaviour {
 	// Call when an enemy is killed
 	public void enemyKilled() {
 		numEnemiesRemaining--;
+		isWaveOver();
 	}
 	
 	public void enemyFinished() {
 		numEnemiesRemaining--;
+		isWaveOver ();
+	}
+	
+	public int getWaveNumber() {
+		return waveNumber;
 	}
 }

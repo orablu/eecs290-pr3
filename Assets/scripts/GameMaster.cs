@@ -9,7 +9,7 @@ public class GameMaster : MonoBehaviour {
 	private string[] selectionStrings = {"Archer", "Catapult", "Spike", "Healer"}; // Names of the Towers available for purchase
 	public GameObject gridPrefab;
 	private GameObject[][] gridPieces = new GameObject[39][];
-	
+	private GameObject waveMaster;
 	private GameObject gridPiece;
 	
 	public int waveCount = 1, baseHealth = 100, gold; // User Resources & Wave info
@@ -17,7 +17,7 @@ public class GameMaster : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		
+		waveMaster = GameObject.Find ("WaveMaster");
 		for (int i = 0; i < 39; i++) {
 			gridPieces[i] = new GameObject[14];	
 		}
@@ -77,17 +77,16 @@ public class GameMaster : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
 	}
 	
 	void OnGUI(){
 		
-		/*if (betweenRounds) {
+		if (betweenRounds) {
 			if (GUI.Button (new Rect (Screen.width/2, Screen.height/2, 100, 100), "Start Round")) {
 				betweenRounds = false;
 				startRound();
 			}
-		}*/
+		}
 		
 		GUI.skin = TDSkin;
 		GUI.Box (new Rect (0,0,200,Screen.height), "");
@@ -139,8 +138,8 @@ public class GameMaster : MonoBehaviour {
 			}
 		}
 		
-		//if (GUI.Button (new Rect (Screen.width/2, Screen.height * 3/4, 100, 100), "End Round"))
-		//	endRound();
+		if (GUI.Button (new Rect (Screen.width/2, Screen.height * 3/4, 100, 100), "End Round"))
+			endRound();
 	}
 	
 	/* Called to display the tower currently selected */
@@ -149,11 +148,14 @@ public class GameMaster : MonoBehaviour {
 	}
 	
 	void endRound() {
+		waveCount++;
 		Camera.mainCamera.SendMessage("zoomOut");
 		betweenRounds = true;
 	}
 
 	void startRound() {
 		Camera.mainCamera.SendMessage("zoomStandard");
+		waveMaster.BroadcastMessage("advanceWave");
+		
 	}
 }
