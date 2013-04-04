@@ -103,9 +103,9 @@ public class Archer : Tower {
     /// <summary>
     /// Disables the tower.
     /// </summary>
-    public override void Disable() {
-
-    }
+    //public override void Disable() {
+		//gameObject.SetActive(false);
+   // }
 
     public override void Shoot() {
         Projectile shot = Instantiate(ShotPrefab, transform.position, transform.rotation) as Projectile;
@@ -115,9 +115,9 @@ public class Archer : Tower {
     /// <summary>
     /// Enables the tower.
     /// </summary>
-    public override void Enable() {
+   // public override void Enable() {
 
-    }
+    //}
 
 
 #endregion

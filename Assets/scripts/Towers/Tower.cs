@@ -279,12 +279,16 @@ public abstract class Tower : MonoBehaviour {
     /// <summary>
     /// Disables the tower.
     /// </summary>
-    abstract public void Disable();
+     public virtual void Disable() {
+		gameObject.SetActive(false);
+	}
 
     /// <summary>
     /// Enables the tower.
     /// </summary>
-    abstract public void Enable();
+    public virtual void Enable() {
+		gameObject.SetActive(true);
+	}
 
 #endregion
 }

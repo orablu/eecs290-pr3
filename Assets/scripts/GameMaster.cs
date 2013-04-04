@@ -17,6 +17,7 @@ public class GameMaster : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
+		
 		waveMaster = GameObject.Find ("WaveMaster");
 		for (int i = 0; i < 39; i++) {
 			gridPieces[i] = new GameObject[14];	
