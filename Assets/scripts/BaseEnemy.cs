@@ -16,6 +16,7 @@ public class BaseEnemy : MonoBehaviour {
 	public int currentCheckpointNum;
 	public bool offPath;
 	public Vector3 leftPathAt;
+	public bool canAttack;
 	
 	public BaseEnemy() {
 	}
@@ -35,6 +36,7 @@ public class BaseEnemy : MonoBehaviour {
 		attackingTowers = false;
 		offPath = false;
 		dmg = 25f;
+		canAttack = false;
 	}
 	
 	// Update is called once per frame
@@ -65,8 +67,10 @@ public class BaseEnemy : MonoBehaviour {
 				offPath = !offPath;
 			}
 			rigidbody.position = Vector3.MoveTowards(rigidbody.position, obj.transform.position, speed*Time.deltaTime);
-			if(atTarget (currentTarget) ) {
+			if(canAttack ) {
+				Debug.Log ("atacking");
 				attack(currentTarget);
+				canAttack = !canAttack;
 			}
 		}
 		// If you are not attacking towers and you're off the path, move back to your saved spot
@@ -79,6 +83,20 @@ public class BaseEnemy : MonoBehaviour {
 		}
 	}
 	
+	void onCollisionEnter(Collision collision) {
+		Debug.Log("trigger fired");
+		if (collision.gameObject == currentTarget) {
+			if(!canAttack)
+				canAttack = !canAttack;
+		}
+	}
+	void onTriggerEnter(Collider collision) {
+		Debug.Log("trigger fired");
+		if (collision.gameObject == currentTarget) {
+			if(!canAttack)
+				canAttack = !canAttack;
+		}
+	}
 	void advanceCheckpoint() {
 		currentCheckpointNum++;
 		checkpointTarget = checkpointList[currentCheckpointNum];
@@ -96,6 +114,7 @@ public class BaseEnemy : MonoBehaviour {
 	}
 
 	public void hit(hitType args) {
+		Debug.Log ("Damage taken = "+args.dmg);
 		hp = hp - args.dmg;
 		if(storedTarget == null)
 			storedTarget = currentTarget;

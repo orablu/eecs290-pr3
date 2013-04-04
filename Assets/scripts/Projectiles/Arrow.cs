@@ -40,8 +40,8 @@ public class Arrow : Projectile {
     public override void OnTriggerEnter(Collider collider) {
         if (HitTarget) {
             if (collider.gameObject.tag == "Enemy") {
-                collider.gameObject.SendMessage("Hit",
-                        new object[] {Power, ParentTower});
+				hitType args = new hitType(Power, ParentTower.gameObject);
+                collider.gameObject.SendMessage("hit", args);
                 HitsLeft--;
                 if (HitsLeft <= 0) {
                     this.Die();
@@ -49,8 +49,8 @@ public class Arrow : Projectile {
             }
         }
         else if (collider.gameObject == Target) {
-            collider.gameObject.SendMessage("Hit",
-                    new object[] {Power, ParentTower});
+			hitType args = new hitType(Power, ParentTower.gameObject);
+            collider.gameObject.SendMessage("hit", args);
             HitTarget = true;
             HitsLeft--;
             if (HitsLeft <= 0) {
