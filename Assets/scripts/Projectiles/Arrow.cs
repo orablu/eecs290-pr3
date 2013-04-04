@@ -10,6 +10,12 @@ using System.Collections;
 /// A tower that shoots. Relatively cheap, 
 /// </summary>
 public class Arrow : Projectile {
+#region Private Fields
+
+    public bool HitTarget;
+
+#endregion
+
 #region Arrow Stats
 
     public float Lv1ArrowSpeed;
@@ -21,23 +27,40 @@ public class Arrow : Projectile {
 #region Abstract Implementations
 
     public override void Start() {
+        HitTarget = false;
     }
 
     public override void Update() {
         if (Target != null) {
-            MoveToTarget();
+            transform.LookAt(Target.transform);
+            transform.position = MoveToTarget();
         }
     }
 
-    public override void OnCollisionEnter(Collision collision) {
-        if (collision.gameObject == Target) {
-            collision.gameObject.SendMessage("Hit", new {power = Power, tower = ParentTower});
+    public override void OnTriggerEnter(Collider collider) {
+        if (HitTarget) {
+            if (collider.gameObject.tag == "Enemy") {
+                collider.gameObject.SendMessage("Hit",
+                        new object[] {Power, ParentTower});
+                HitsLeft--;
+                if (HitsLeft <= 0) {
+                    this.Die();
+                }
+            }
+        }
+        else if (collider.gameObject == Target) {
+            collider.gameObject.SendMessage("Hit",
+                    new object[] {Power, ParentTower});
+            HitTarget = true;
             HitsLeft--;
+            if (HitsLeft <= 0) {
+                this.Die();
+            }
         }
     }
 
     public override void Die() {
-        Destroy(this);
+        Destroy(gameObject);
     }
 
     public override void SetParent(Tower parent) {
@@ -64,5 +87,14 @@ public class Arrow : Projectile {
                 MaxHits = 5;
                 break;
         }
+    }
+
+    /// <summary>
+    /// Move the projectile toward the target.
+    /// </summary>
+    private Vector3 MoveToTarget() {
+        Vector3 mypos = transform.position;
+        Vector3 targetpos = Target.transform.position;
+        return Vector3.MoveTowards(mypos, targetpos, Speed * Time.deltaTime);
     }
 }

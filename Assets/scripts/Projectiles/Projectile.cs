@@ -62,15 +62,6 @@ public abstract class Projectile : MonoBehaviour {
     /// </summary>
     public GameObject Target;
 
-    /// <summary>
-    /// Move the projectile toward the target.
-    /// </summary>
-    public Vector3 MoveToTarget() {
-        Vector3 mypos = transform.position;
-        Vector3 targetpos = Target.transform.position;
-        return Vector3.MoveTowards(mypos, targetpos, Speed * Time.deltaTime);
-    }
-
 
 #endregion
 
@@ -80,7 +71,7 @@ public abstract class Projectile : MonoBehaviour {
 
     abstract public void Update();
 
-    abstract public void OnCollisionEnter(Collision collision);
+    abstract public void OnTriggerEnter(Collider collider);
 
     abstract public void Die();
 
