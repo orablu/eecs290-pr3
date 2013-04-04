@@ -8,6 +8,7 @@ public class BaseEnemy : MonoBehaviour {
 	public float hp;
 	public GameObject currentTarget;
 	public float dmg;
+	public float attackDelay;
 	
 	private GameObject storedTarget;
 	private GameObject waveMaster;
@@ -16,7 +17,8 @@ public class BaseEnemy : MonoBehaviour {
 	public int currentCheckpointNum;
 	public bool offPath;
 	public Vector3 leftPathAt;
-	
+	public bool canAttack;
+	private float coolDown;
 	public BaseEnemy() {
 	}
 	// Use this for initialization
@@ -31,15 +33,29 @@ public class BaseEnemy : MonoBehaviour {
 		checkpointTarget = checkpointList[0];
 		currentTarget = checkpointTarget;
 		currentCheckpointNum = 0;
-		speed = 3f;
+		speed = 4f;
 		attackingTowers = false;
 		offPath = false;
-		dmg = 25f;
+		dmg = 5f;
+		canAttack = false;
+		attackDelay = 1.5f;
+		coolDown = 0f;
 	}
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-		StepToTarget(currentTarget);
+		if(canAttack && coolDown == 0) {
+			Debug.Log ("atacking");
+			attack(currentTarget);
+			coolDown = attackDelay;
+		}
+		else if(canAttack && coolDown > 0) {
+			coolDown = coolDown - Time.deltaTime;
+			if (coolDown < 0)
+				coolDown = 0;
+		}
+		else
+			StepToTarget(currentTarget);
 		checkIfDead();
 	}
 	
@@ -65,20 +81,27 @@ public class BaseEnemy : MonoBehaviour {
 				offPath = !offPath;
 			}
 			rigidbody.position = Vector3.MoveTowards(rigidbody.position, obj.transform.position, speed*Time.deltaTime);
-			if(atTarget (currentTarget) ) {
-				attack(currentTarget);
-			}
 		}
 		// If you are not attacking towers and you're off the path, move back to your saved spot
 		else if(!attackingTowers && offPath) {
 			rigidbody.position = Vector3.MoveTowards(rigidbody.position, leftPathAt, speed*Time.deltaTime);
 			// If you're at the spot you left the path
-			if(transform.position == leftPathAt) {
+			if(Math.Abs (transform.position.x - leftPathAt.x) <=.1 &&
+				Math.Abs (transform.position.z - leftPathAt.z) <=.1) {
+				transform.position.Set (leftPathAt.x, leftPathAt.y, leftPathAt.z);
 				offPath = !offPath;
 			}
 		}
 	}
-	
+
+	public void OnTriggerEnter(Collider collider) {
+		
+		if (collider.gameObject == currentTarget && attackingTowers) {
+			Debug.Log("trigger fired");
+			if(!canAttack)
+				canAttack = !canAttack;
+		}
+	}
 	void advanceCheckpoint() {
 		currentCheckpointNum++;
 		checkpointTarget = checkpointList[currentCheckpointNum];
@@ -124,6 +147,7 @@ public class BaseEnemy : MonoBehaviour {
 		attackingTowers = false;
 		currentTarget = storedTarget;
 		storedTarget = null;
+		canAttack = false;
 	}
 	
 	void checkIfDead() {

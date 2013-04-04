@@ -44,4 +44,12 @@ public class testingTower : MonoBehaviour {
 		}
 	}
 	
+	void onCollisionEnter(Collision collision) {
+		Debug.Log("Collision");
+	}
+	
+	void onTriggerEnter(Collider other) {
+		Debug.Log("Collision");	
+	}
+	
 }
