@@ -33,12 +33,12 @@ public class BaseEnemy : MonoBehaviour {
 		checkpointTarget = checkpointList[0];
 		currentTarget = checkpointTarget;
 		currentCheckpointNum = 0;
-		speed = 3f;
+		speed = 4f;
 		attackingTowers = false;
 		offPath = false;
-		dmg = 2f;
+		dmg = 5f;
 		canAttack = false;
-		attackDelay = 3f;
+		attackDelay = 1.5f;
 		coolDown = 0f;
 	}
 	
