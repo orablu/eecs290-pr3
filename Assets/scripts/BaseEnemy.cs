@@ -8,6 +8,7 @@ public class BaseEnemy : MonoBehaviour {
 	public float hp;
 	public GameObject currentTarget;
 	public float dmg;
+	public float attackDelay;
 	
 	private GameObject storedTarget;
 	private GameObject waveMaster;
@@ -17,7 +18,7 @@ public class BaseEnemy : MonoBehaviour {
 	public bool offPath;
 	public Vector3 leftPathAt;
 	public bool canAttack;
-	
+	private float coolDown;
 	public BaseEnemy() {
 	}
 	// Use this for initialization
@@ -35,13 +36,26 @@ public class BaseEnemy : MonoBehaviour {
 		speed = 3f;
 		attackingTowers = false;
 		offPath = false;
-		dmg = 25f;
+		dmg = 2f;
 		canAttack = false;
+		attackDelay = 3f;
+		coolDown = 0f;
 	}
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-		StepToTarget(currentTarget);
+		if(canAttack && coolDown == 0) {
+			Debug.Log ("atacking");
+			attack(currentTarget);
+			coolDown = attackDelay;
+		}
+		else if(canAttack && coolDown > 0) {
+			coolDown = coolDown - Time.deltaTime;
+			if (coolDown < 0)
+				coolDown = 0;
+		}
+		else
+			StepToTarget(currentTarget);
 		checkIfDead();
 	}
 	
@@ -67,32 +81,23 @@ public class BaseEnemy : MonoBehaviour {
 				offPath = !offPath;
 			}
 			rigidbody.position = Vector3.MoveTowards(rigidbody.position, obj.transform.position, speed*Time.deltaTime);
-			if(canAttack ) {
-				Debug.Log ("atacking");
-				attack(currentTarget);
-				canAttack = !canAttack;
-			}
 		}
 		// If you are not attacking towers and you're off the path, move back to your saved spot
 		else if(!attackingTowers && offPath) {
 			rigidbody.position = Vector3.MoveTowards(rigidbody.position, leftPathAt, speed*Time.deltaTime);
 			// If you're at the spot you left the path
-			if(transform.position == leftPathAt) {
+			if(Math.Abs (transform.position.x - leftPathAt.x) <=.1 &&
+				Math.Abs (transform.position.z - leftPathAt.z) <=.1) {
+				transform.position.Set (leftPathAt.x, leftPathAt.y, leftPathAt.z);
 				offPath = !offPath;
 			}
 		}
 	}
-	
-	void onCollisionEnter(Collision collision) {
-		Debug.Log("trigger fired");
-		if (collision.gameObject == currentTarget) {
-			if(!canAttack)
-				canAttack = !canAttack;
-		}
-	}
-	void onTriggerEnter(Collider collision) {
-		Debug.Log("trigger fired");
-		if (collision.gameObject == currentTarget) {
+
+	public void OnTriggerEnter(Collider collider) {
+		
+		if (collider.gameObject == currentTarget && attackingTowers) {
+			Debug.Log("trigger fired");
 			if(!canAttack)
 				canAttack = !canAttack;
 		}
@@ -114,7 +119,6 @@ public class BaseEnemy : MonoBehaviour {
 	}
 
 	public void hit(hitType args) {
-		Debug.Log ("Damage taken = "+args.dmg);
 		hp = hp - args.dmg;
 		if(storedTarget == null)
 			storedTarget = currentTarget;
@@ -143,6 +147,7 @@ public class BaseEnemy : MonoBehaviour {
 		attackingTowers = false;
 		currentTarget = storedTarget;
 		storedTarget = null;
+		canAttack = false;
 	}
 	
 	void checkIfDead() {

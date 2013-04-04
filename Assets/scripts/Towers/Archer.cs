@@ -100,7 +100,18 @@ public class Archer : Tower {
             }
         }
     }
-
+	
+	void hit(hitType args) {
+		int dmg = (int) args.dmg;
+		HP = HP - dmg;
+		Debug.Log ("Current hp after hit = "+HP);
+		if(HP <= 0) {
+			args.source.SendMessage("targetDown");
+			Destroy(gameObject);
+			Destroy(RangeObject);
+		}
+	}
+	
     /// <summary>
     /// Disables the tower.
     /// </summary>
