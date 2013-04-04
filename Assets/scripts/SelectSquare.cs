@@ -1,6 +1,9 @@
 using UnityEngine;
 using System.Collections;
-using System;
+/* Greg Ziegan
+ * grz5
+ * Main Contributor
+ */
 
 public class SelectSquare : MonoBehaviour {
 	
@@ -16,8 +19,11 @@ public class SelectSquare : MonoBehaviour {
 	
 	private GameObject gm;
 	private GameMaster gmScript;
-	private string towerName;
 	private Vector3 offScreen = new Vector3(0,20,0);
+	
+	/*private Catapult cat;
+	private Spike spike;
+	private Healer heal;*/
 	
 	// Use this for initialization
 	void Start () {
@@ -35,7 +41,7 @@ public class SelectSquare : MonoBehaviour {
 		dummyHeal = GameObject.Find("HealDum");
 		
 		/* Disable the towers */
-		dummyArch.SendMessage("Disable");
+		//dummyArch.SendMessage("Disable");
 		/*dummyCat.SendMessage("Disable");
 		dummySpike.SendMessage("Disable");
 		dummyHeal.SendMessage("Disable");*/
@@ -64,13 +70,16 @@ public class SelectSquare : MonoBehaviour {
 		}
 	}
 	
+	/* Called whenever mouse is over grid piece --
+	  * Checks whether the tile is available and empty and previews a dummy there, otherwise displays current tower's range */
 	void OnMouseOver() {
 		
 		if (!unavailable && empty) {
 			selected = true;
 			towerType = gmScript.selectionGridInt;
 			moveDummys(this.transform.position);
-		}
+		} else if (tower) 
+			updateRange(true);
     }
 	
 	/* Moves dummys in and out of view for previewing square purchases */
@@ -97,7 +106,32 @@ public class SelectSquare : MonoBehaviour {
 		if (selected) {
 			moveDummys(offScreen);
 			selected = false;
+		} else if (tower) {
+			updateRange(false);
 		}
+	}
+	
+	/* Will take away range when not hovered over */
+	void updateRange(bool show) {
+		towerType = gmScript.selectionGridInt; 
+		switch (towerType) {
+				case 0:
+					Archer arch = newTower.GetComponent("Archer") as Archer;
+					arch.RangeObject.renderer.enabled = show;
+					break;
+				/*case 1:
+					Catapult cat = newTower.GetComponent("Catapult") as Catapult;
+					cat.RangeObject.renderer.enabled = show;
+					break;
+				case 2:
+					Flamethrower flame = newTower.GetComponent("FlameThrower") as Flamethrower;
+					flame.RangeObject.renderer.enabled = show;
+					break;
+				case 3:
+					Healer heal = newTower.GetComponent("Healer") as Healer;
+					heal.RangeObject.renderer.enabled = show;
+					break;*/
+			}
 	}
 	
 	// Will be used to alter what blocks are available depending on map path

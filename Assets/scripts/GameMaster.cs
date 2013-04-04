@@ -1,6 +1,11 @@
 using UnityEngine;
 using System.Collections;
 
+/* Greg Ziegan
+ * grz5
+ * Main Contributor
+ */
+
 public class GameMaster : MonoBehaviour {
 	
 	public Texture2D archerTex; // Symbol for archer tower
@@ -31,7 +36,8 @@ public class GameMaster : MonoBehaviour {
 			}
 		}
 		
-		/* Declares selective grid pieces unavailable */
+		/* Declares selective grid pieces unavailable
+		  * Very difficult to implement since map was simply a texture */
 		for (int i = 11; i < 26; i++) {
 			gridPieces[i][5].gameObject.SendMessage("setUnavailable");
 			gridPieces[i][6].gameObject.SendMessage("setUnavailable");
@@ -174,12 +180,14 @@ public class GameMaster : MonoBehaviour {
 		selectionGridInt = towerType;
 	}
 	
+	// Ends the current round and zooms out
 	void endRound() {
 		waveCount++;
 		Camera.mainCamera.SendMessage("zoomOut");
 		betweenRounds = true;
 	}
-
+	
+	// Starts a new round and spawns enemies
 	void startRound() {
 		Camera.mainCamera.SendMessage("zoomStandard");
 		waveMaster.BroadcastMessage("advanceWave");

@@ -1,6 +1,10 @@
 using UnityEngine;
 using System.Collections;
 
+/* Greg Ziegan
+ * grz5
+ */
+
 public class CameraControl : MonoBehaviour {
 	
 	public float leftBorder = -17f, rightBorder = 15.5f, upperBorder = -2.5f, lowerBorder = -12.5f;
