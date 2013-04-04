@@ -12,22 +12,21 @@ using System.Collections;
 public class Arrow : Projectile {
 #region Arrow Stats
 
-    public static float[] ArrowSpeed;
-    public static int[] ArrowPower;
-    public static int[] ArrowMaxHits;
+    public float Lv1ArrowSpeed;
+    public int Lv1ArrowPower;
+    public int Lv1ArrowMaxHits;
 
 #endregion
 
 #region Abstract Implementations
 
     public override void Start() {
-        Speed = ArrowSpeed[Level - 1];
-        Power = ArrowPower[Level - 1];
-        MaxHits = ArrowMaxHits[Level - 1];
     }
 
     public override void Update() {
-        MoveToTarget();
+        if (Target != null) {
+            MoveToTarget();
+        }
     }
 
     public override void OnCollisionEnter(Collision collision) {
@@ -41,5 +40,29 @@ public class Arrow : Projectile {
         Destroy(this);
     }
 
+    public override void SetParent(Tower parent) {
+        ParentTower = parent;
+        transform.position = ParentTower.transform.position;
+        transform.rotation = ParentTower.transform.rotation;
+        Level = parent.Level;
+        Target = ParentTower.Target;
+        setArrowStats();
+    }
+
 #endregion
+
+    private void setArrowStats() {
+        switch (Level) {
+            case 1 :
+                Speed = Lv1ArrowSpeed;
+                Power = Lv1ArrowPower;
+                MaxHits = Lv1ArrowMaxHits;
+                break;
+            default :
+                Speed = 1;
+                Power = 1;
+                MaxHits = 5;
+                break;
+        }
+    }
 }

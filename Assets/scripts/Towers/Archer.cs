@@ -109,8 +109,7 @@ public class Archer : Tower {
 
     public override void Shoot() {
         Projectile shot = Instantiate(ShotPrefab, transform.position, transform.rotation) as Projectile;
-        shot.ParentTower = this;
-        shot.Level = Level;
+        shot.SetParent(this);
     }
 
     /// <summary>

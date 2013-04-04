@@ -60,7 +60,7 @@ public abstract class Projectile : MonoBehaviour {
     /// <summary>
     /// The target th projectile is moving towards.
     /// </summary>
-    public MonoBehaviour Target;
+    public GameObject Target;
 
     /// <summary>
     /// Move the projectile toward the target.
@@ -83,6 +83,8 @@ public abstract class Projectile : MonoBehaviour {
     abstract public void OnCollisionEnter(Collision collision);
 
     abstract public void Die();
+
+    abstract public void SetParent(Tower parent);
 
 #endregion
 }
