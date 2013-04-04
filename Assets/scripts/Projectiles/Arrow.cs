@@ -1,6 +1,6 @@
 /// Wes Rupert - wkr3
 /// EECS 290   - Project 03
-/// Purgatory  - Arrow.cs
+/// Towas      - Arrow.cs
 /// Script to control general tower behavior.
 
 using UnityEngine;
@@ -10,17 +10,13 @@ using System.Collections;
 /// A tower that shoots. Relatively cheap, 
 /// </summary>
 public class Arrow : Projectile {
-#region Private Fields
-
-    public bool HitTarget;
-
-#endregion
-
-#region Arrow Stats
+#region Arrow Fields
 
     public float Lv1ArrowSpeed;
     public int Lv1ArrowPower;
     public int Lv1ArrowMaxHits;
+
+    public bool HitTarget;
 
 #endregion
 
@@ -84,7 +80,7 @@ public class Arrow : Projectile {
             default :
                 Speed = 1;
                 Power = 1;
-                MaxHits = 5;
+                MaxHits = 1;
                 break;
         }
     }

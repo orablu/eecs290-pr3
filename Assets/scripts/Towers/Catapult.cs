@@ -1,6 +1,6 @@
 /// Wes Rupert - wkr3
 /// EECS 290   - Project 03
-/// Towas      - Archer.cs
+/// Towas      - Catapult.cs
 /// Script to control general tower behavior.
 
 using UnityEngine;
@@ -10,18 +10,18 @@ using System.Collections.Generic;
 /// <summary>
 /// A tower that shoots. Relatively cheap, 
 /// </summary>
-public class Archer : Tower {
+public class Catapult : Tower {
 #region Constants
 
-    private const string TOWERNAME = "Archer";
+    private const string TOWERNAME = "Catapult";
 
 #endregion
 
-#region Archer Stats
+#region Catapult Stats
 
-    public float Lv1ArcherShootSpeed;
-    public int   Lv1ArcherMaxHP;
-    public float Lv1ArcherRange;
+    public float Lv1CatapultShootSpeed;
+    public int   Lv1CatapultMaxHP;
+    public float Lv1CatapultRange;
 
     public Texture2D frameShooting, frameNormal;
 
@@ -65,7 +65,7 @@ public class Archer : Tower {
     /// </summary>
 	public override void Start() {
         setTowerID();
-        setArcherStats();
+        setCatapultStats();
 
         HP = MaxHP;
 
@@ -123,12 +123,12 @@ public class Archer : Tower {
 
 #endregion
 
-    private void setArcherStats() {
+    private void setCatapultStats() {
         switch (Level) {
             case 1 :
-                MaxHP = Lv1ArcherMaxHP;
-                ShootSpeed = Lv1ArcherShootSpeed;
-                Range = Lv1ArcherRange;
+                MaxHP = Lv1CatapultMaxHP;
+                ShootSpeed = Lv1CatapultShootSpeed;
+                Range = Lv1CatapultRange;
                 break;
             default :
                 MaxHP = 1;
