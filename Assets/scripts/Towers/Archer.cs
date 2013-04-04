@@ -89,7 +89,7 @@ public class Archer : Tower {
         }
 
         // Shoot the target, if applicable.
-        if (timeToShoot < 0) {
+        if (timeToShoot <= 0) {
             renderer.material.mainTexture = frameNormal;
             GameObject target = ChooseTarget();
             Target = target;

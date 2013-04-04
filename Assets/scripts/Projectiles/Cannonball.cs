@@ -32,8 +32,7 @@ public class Cannonball : Projectile {
 
     public override void Update() {
         if (Target != null) {
-            transform.LookAt(Target.transform);
-            transform.position = MoveToTarget();
+            MoveToTarget();
         }
 
         if (Vector3.Distance(transform.position, origin) > Lv1CannonballMaxDistance) {
@@ -43,7 +42,8 @@ public class Cannonball : Projectile {
 
     public override void OnTriggerEnter(Collider collider) {
         if (collider.gameObject.tag == "Enemy" && !alreadyHit.Contains(collider.gameObject)) {
-            collider.gameObject.SendMessage("Hit", new object[] {Power, ParentTower});
+            Debug.Log("Hit " + collider.gameObject + ". Adding to list.");
+            collider.gameObject.SendMessage("hit", new hitType(Power, ParentTower.gameObject));
             alreadyHit.Add(collider.gameObject);
             HitsLeft--;
             if (HitsLeft <= 0) {
@@ -62,9 +62,6 @@ public class Cannonball : Projectile {
         transform.rotation = ParentTower.transform.rotation;
         Level = parent.Level;
         Target = ParentTower.Target;
-        targetDir = Target.transform.position - transform.position;
-        targetDir.y = 0f;
-        targetDir.Normalize();
         setCannonballStats();
     }
 
@@ -83,12 +80,14 @@ public class Cannonball : Projectile {
                 MaxHits = 5;
                 break;
         }
+
+        HitsLeft = MaxHits;
     }
 
     /// <summary>
     /// Move the projectile toward the target.
     /// </summary>
-    private Vector3 MoveToTarget() {
-        return transform.position + (targetDir * Speed * Time.deltaTime);
+    private void MoveToTarget() {
+        transform.Translate(Vector3.forward * Speed * Time.deltaTime, Space.Self);
     }
 }

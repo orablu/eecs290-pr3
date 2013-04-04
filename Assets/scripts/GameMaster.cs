@@ -4,6 +4,9 @@ using System.Collections;
 public class GameMaster : MonoBehaviour {
 	
 	public Texture2D archerTex; // Symbol for archer tower
+	public Texture2D cannonTex; // Symbol for cannon tower
+	public Texture2D flamerTex; // Symbol for flamer tower
+	public Texture2D healerTex; // Symbol for healer tower
 	public GUISkin TDSkin; // Custom skin to be used for all GUIs in game
 	public int selectionGridInt = 0; // Index for selected tower
 	private string[] selectionStrings = {"Archer", "Catapult", "Spike", "Healer"}; // Names of the Towers available for purchase
@@ -134,14 +137,17 @@ public class GameMaster : MonoBehaviour {
 				GUI.Label (new Rect (0, Screen.height - Screen.height/2, 200, 20), "Costs 100 gold");	
 				break;
 			case 1:
+				GUI.Label (new Rect (0, Screen.height/2, 200, Screen.height/2), cannonTex);
 				GUI.Label (new Rect (0, Screen.height - Screen.height/10, 200, Screen.height/10), "Launches a large cannon ball");
 				GUI.Label (new Rect (0, Screen.height - Screen.height/2, 200, 20), "Costs 200 gold");
 				break;
 			case 2:
+				GUI.Label (new Rect (0, Screen.height/2, 200, Screen.height/2), flamerTex);
 				GUI.Label (new Rect (0, Screen.height - Screen.height/10, 200, Screen.height/10), "Shoots in multiple directions at once");
 				GUI.Label (new Rect (0, Screen.height - Screen.height/2, 200, 20), "Costs 300 gold");
 				break;
 			case 3:
+				GUI.Label (new Rect (0, Screen.height/2, 200, Screen.height/2), healerTex);
 				GUI.Label (new Rect (0, Screen.height - Screen.height/10, 200, Screen.height/10), "Heals towers close within a certain range");
 				GUI.Label (new Rect (0, Screen.height - Screen.height/2, 200, 20), "Costs 400 gold");
 				break;
