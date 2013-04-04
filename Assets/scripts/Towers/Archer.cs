@@ -23,7 +23,9 @@ public class Archer : Tower {
     public int   Lv1ArcherMaxHP;
     public float Lv1ArcherRange;
 
-    private float timeToShoot;
+    public Texture2D frameShooting, frameNormal;
+
+    public float timeToShoot;
 
 #endregion
 
@@ -78,18 +80,17 @@ public class Archer : Tower {
 	/// Update is called once per frame.
     /// </summary>
 	public override void Update() {
-        // TODO: For debugging purposes only. Remove.
-        setArcherStats();
-
         populatedebuginfo();
 
         // Count down to being able to shoot again.
         if (timeToShoot > 0) {
+            renderer.material.mainTexture = frameShooting;
             timeToShoot -= Time.deltaTime;
         }
 
         // Shoot the target, if applicable.
         if (timeToShoot < 0) {
+            renderer.material.mainTexture = frameNormal;
             GameObject target = ChooseTarget();
             Target = target;
             if (target != null) {
@@ -139,15 +140,15 @@ public class Archer : Tower {
 
     public GameObject Target1, Target2, Target3;
     private void populatedebuginfo() {
-        IEnumerator<GameObject> it = Targets.GetEnumerator();
-        if (it.MoveNext()) {
-            Target1 = it.Current;
+        GameObject[] g = new GameObject[3];
+        int i = 0;
+        foreach (var target in Targets) {
+            g[i++] = target;
+            if (i == g.Length)
+                break;
         }
-        if (it.MoveNext()) {
-            Target2 = it.Current;
-        }
-        if (it.MoveNext()) {
-            Target3 = it.Current;
-        }
+        Target1 = g[0];
+        Target2 = g[1];
+        Target3 = g[2];
     }
 }

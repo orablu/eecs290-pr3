@@ -19,21 +19,8 @@ function Update () {
 		case 2: 
 			renderer.material.mainTexture = frameOne;
 		break;
-		
-}
-
-// If the the player is not moving than superguy stands still.
-	
-	
-	
-
-//when player presses right key, move superguy forward.
-	
-		
-			frameCounter = frameCounter +Time.deltaTime * animationSpeed;
-					
-
-		
+    }
+    frameCounter = frameCounter +Time.deltaTime * animationSpeed;
 	if (frameCounter>4)
-	frameCounter = 0;
-			}
+        frameCounter = 0;
+}

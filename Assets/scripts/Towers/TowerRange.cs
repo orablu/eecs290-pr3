@@ -20,13 +20,25 @@ public class TowerRange : MonoBehaviour {
     }
 
     void OnTriggerEnter(Collider collider) {
-        ParentTower.Targets.Add(collider.gameObject);
-        Debug.Log("Enemy added to " + ParentTower.TowerID);
+        if (isOutsideRange(collider.gameObject)) {
+            ParentTower.Targets.Add(collider.gameObject);
+            Debug.Log("Enemy added to " + ParentTower.TowerID);
+        }
+        else {
+            ParentTower.Targets.Remove(collider.gameObject);
+            Debug.Log("Enemy removed from " + ParentTower.TowerID);
+        }
     }
 
     void OnTriggerExit(Collider collider) {
-        ParentTower.Targets.Remove(collider.gameObject);
-        Debug.Log("Enemy removed from " + ParentTower.TowerID);
+        if (isOutsideRange(collider.gameObject)) {
+            ParentTower.Targets.Remove(collider.gameObject);
+            Debug.Log("Enemy removed from " + ParentTower.TowerID);
+        }
+        else {
+            ParentTower.Targets.Add(collider.gameObject);
+            Debug.Log("Enemy added to " + ParentTower.TowerID);
+        }
     }
 
     public void SetParent(Tower parent) {
@@ -36,5 +48,9 @@ public class TowerRange : MonoBehaviour {
                 ParentTower.Range,
                 1f,
                 ParentTower.Range);
+    }
+
+    private bool isOutsideRange(GameObject target) {
+        return Vector3.Distance(transform.position, target.transform.position) - transform.localScale.x < 0;
     }
 }

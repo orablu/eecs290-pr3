@@ -182,9 +182,10 @@ public abstract class Tower : MonoBehaviour {
             case TargetIntent.Nearest :
                 return null;
             case TargetIntent.Random :
-                var enumerator = Targets.GetEnumerator();
-                enumerator.MoveNext();
-                return enumerator.Current;
+                foreach (var target in Targets) {
+                    return target;
+                }
+                return null;
             default :
                 return null;
         }
