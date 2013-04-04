@@ -1,6 +1,6 @@
 /// Wes Rupert - wkr3
 /// EECS 290   - Project 03
-/// Purgatory  - Shooter.cs
+/// Towas      - Archer.cs
 /// Script to control general tower behavior.
 
 using UnityEngine;
@@ -89,7 +89,7 @@ public class Archer : Tower {
         }
 
         // Shoot the target, if applicable.
-        if (timeToShoot < 0) {
+        if (timeToShoot <= 0) {
             renderer.material.mainTexture = frameNormal;
             GameObject target = ChooseTarget();
             Target = target;
