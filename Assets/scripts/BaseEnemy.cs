@@ -1,3 +1,8 @@
+/// <summary>
+/// Sam Schneider
+/// EECS 290
+/// Project 3
+/// </summary>
 using UnityEngine;
 using System.Collections;
 using System;
@@ -23,7 +28,7 @@ public class BaseEnemy : MonoBehaviour {
 	}
 	// Use this for initialization
 	void Start () {
-		hp = 100f;
+		hp = 30f;
 		waveMaster = GameObject.Find ("WaveMaster");
 		checkpointList = new GameObject[13];
 		for(int i=0; i < 13; i++)
@@ -119,6 +124,7 @@ public class BaseEnemy : MonoBehaviour {
 	}
 
 	public void hit(hitType args) {
+		Debug.Log ("Hit");
 		hp = hp - args.dmg;
 		if(storedTarget == null)
 			storedTarget = currentTarget;
@@ -143,6 +149,7 @@ public class BaseEnemy : MonoBehaviour {
 	}
 	
 	public void targetDown() {
+		
 		Debug.Log ("Target destroyed");
 		attackingTowers = false;
 		currentTarget = storedTarget;
@@ -151,8 +158,9 @@ public class BaseEnemy : MonoBehaviour {
 	}
 	
 	void checkIfDead() {
-		if(hp <= 0f) {
+		if(hp <= 0) {
 			Destroy (gameObject);
+			Debug.Log ("enemy killed");
 			waveMaster.BroadcastMessage("enemyKilled");
 		}
 	}

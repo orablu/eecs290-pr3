@@ -170,6 +170,7 @@ public abstract class Tower : MonoBehaviour {
     public TowerRange RangeObject;
 
     public GameObject ChooseTarget() {
+		Targets.Remove (null);
         switch (Intent) {
             case TargetIntent.First :
                 return null;

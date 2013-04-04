@@ -1,3 +1,8 @@
+/// <summary>
+/// Sam Schneider
+/// EECS 290
+/// Project 3
+/// </summary>
 using UnityEngine;
 using System.Collections;
 using System.IO;

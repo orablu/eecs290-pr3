@@ -100,7 +100,16 @@ public class Catapult : Tower {
             }
         }
     }
-
+	void hit(hitType args) {
+		int dmg = (int) args.dmg;
+		HP = HP - dmg;
+		Debug.Log ("Current hp after hit = "+HP);
+		if(HP <= 0) {
+			args.source.SendMessage("targetDown");
+			Destroy(gameObject);
+			Destroy(RangeObject.gameObject);
+		}
+	}
     /// <summary>
     /// Disables the tower.
     /// </summary>

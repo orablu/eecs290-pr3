@@ -108,7 +108,7 @@ public class Archer : Tower {
 		if(HP <= 0) {
 			args.source.SendMessage("targetDown");
 			Destroy(gameObject);
-			Destroy(RangeObject);
+			Destroy(RangeObject.gameObject);
 		}
 	}
 	

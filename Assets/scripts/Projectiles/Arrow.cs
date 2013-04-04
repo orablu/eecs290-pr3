@@ -31,6 +31,9 @@ public class Arrow : Projectile {
             transform.LookAt(Target.transform);
             transform.position = MoveToTarget();
         }
+		if(ParentTower == null) {
+		Die ();
+		}
     }
 
     public override void OnTriggerEnter(Collider collider) {
