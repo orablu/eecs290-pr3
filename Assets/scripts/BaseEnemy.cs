@@ -16,6 +16,9 @@ public class BaseEnemy : MonoBehaviour {
 	private int currentCheckpointNum;
 	private bool offPath;
 	private Vector3 leftPathAt;
+	
+	public BaseEnemy() {
+	}
 	// Use this for initialization
 	void Start () {
 		hp = 100f;
@@ -91,11 +94,10 @@ public class BaseEnemy : MonoBehaviour {
 			return false;
 	}
 
-	public void hit(object[] args) {
-		float dmg = (float) args[0];
-		hp = hp - dmg;
+	public void hit(hitType args) {
+		hp = hp - args.dmg;
 		storedTarget = currentTarget;
-		currentTarget = (GameObject) args[1];
+		currentTarget = args.source;
 		if(!attackingTowers)
 			attackingTowers = !attackingTowers;
 		checkIfDead();
