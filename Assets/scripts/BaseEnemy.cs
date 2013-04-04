@@ -7,15 +7,15 @@ public class BaseEnemy : MonoBehaviour {
 	public float speed;
 	public float hp;
 	public GameObject currentTarget;
+	public float dmg;
 	
-	private Vector3 pointLeftPath;
 	private GameObject storedTarget;
 	private GameObject waveMaster;
 	private GameObject[] checkpointList;
 	private bool attackingTowers;
-	private int currentCheckpointNum;
-	private bool offPath;
-	private Vector3 leftPathAt;
+	public int currentCheckpointNum;
+	public bool offPath;
+	public Vector3 leftPathAt;
 	
 	public BaseEnemy() {
 	}
@@ -34,6 +34,7 @@ public class BaseEnemy : MonoBehaviour {
 		speed = 3f;
 		attackingTowers = false;
 		offPath = false;
+		dmg = 25f;
 	}
 	
 	// Update is called once per frame
@@ -70,9 +71,9 @@ public class BaseEnemy : MonoBehaviour {
 		}
 		// If you are not attacking towers and you're off the path, move back to your saved spot
 		else if(!attackingTowers && offPath) {
-			rigidbody.position = Vector3.MoveTowards(rigidbody.position, pointLeftPath, speed*Time.deltaTime);
+			rigidbody.position = Vector3.MoveTowards(rigidbody.position, leftPathAt, speed*Time.deltaTime);
 			// If you're at the spot you left the path
-			if(transform.position == pointLeftPath) {
+			if(transform.position == leftPathAt) {
 				offPath = !offPath;
 			}
 		}
@@ -96,7 +97,8 @@ public class BaseEnemy : MonoBehaviour {
 
 	public void hit(hitType args) {
 		hp = hp - args.dmg;
-		storedTarget = currentTarget;
+		if(storedTarget == null)
+			storedTarget = currentTarget;
 		currentTarget = args.source;
 		if(!attackingTowers)
 			attackingTowers = !attackingTowers;
@@ -104,13 +106,26 @@ public class BaseEnemy : MonoBehaviour {
 	}
 	
 	public void attack(GameObject target) {
-		//Send target a message with amount of damage done
-		//Check if you killed the target
-		//If target = dead
-		//	currentTarget = storedTarget
-		//	attackingTowers = false
+		/*Send target a message with amount of damage done
+		*Check if you killed the target
+		*If target = dead
+		*currentTarget = storedTarget	
+		*attackingTowers = false
+		*/
+		hitType args = new hitType(dmg, gameObject);
+		target.SendMessage("hit", args);
+		//if(target == null)
+		//	attackingTowers = false;
 		
 	}
+	
+	public void targetDown() {
+		Debug.Log ("Target destroyed");
+		attackingTowers = false;
+		currentTarget = storedTarget;
+		storedTarget = null;
+	}
+	
 	void checkIfDead() {
 		if(hp <= 0f) {
 			Destroy (gameObject);

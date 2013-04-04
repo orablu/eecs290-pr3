@@ -28,6 +28,14 @@ public class testingTower : MonoBehaviour {
 		
 	}
 	
+	void hit(hitType args) {
+		float dmg = args.dmg;
+		hp = hp - dmg;
+		if(hp < 0) {
+			args.source.SendMessage("targetDown");
+			Destroy(gameObject);
+		}
+	}
 	IEnumerator attack(GameObject target) {
 		for(int i=10; i > 0; i--) {
 			yield return new WaitForSeconds(delayTime);
